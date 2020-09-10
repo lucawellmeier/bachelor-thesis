@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+    \def \n {3}
+    \def \radius {3cm}
+    \def \margin {8} % margin in angles, depends on the radius
+    
+    \node[draw, circle] at ({360/\n * (1 - 1)}:\radius) {$1$};
+    \draw[->, >=latex] ({360/\n * (1 - 1)+\margin}:\radius) 
+        arc ({360/\n * (1 - 1)+\margin}:{360/\n * (1)-\margin}:\radius);
+    
+    \node[draw, circle] at ({360/\n * (2 - 1)}:\radius) {$3$};
+    \draw[->, >=latex] ({360/\n * (2 - 1)+\margin}:\radius) 
+        arc ({360/\n * (2 - 1)+\margin}:{360/\n * (2)-\margin}:\radius);
+            
+    \node[draw, circle] at ({360/\n * (3 - 1)}:\radius) {$2$};
+    \draw[->, >=latex] ({360/\n * (3 - 1)+\margin}:\radius) 
+        arc ({360/\n * (3 - 1)+\margin}:{360/\n * (3)-\margin}:\radius);
+\end{tikzpicture}

@@ -1,0 +1,434 @@
+In the case of power series generating functions it is very natural to consider complex-analytic methods. 
+When interpreting them as functions $\mathbb{C} \to \mathbb{C}$ they are automatically holomorphic around the origin, if their radius of convergence is positive.
+
+Therefore, the main analytic tool of this chapter will be the Cauchy integral formula. 
+It states that, if $f: U \to \mathbb{C}$ is analytic in a domain $U$, $a \in U$ and $\gamma$ is a loop in $U$ surrounding $a$ once and with positive orientation, then
+$$
+f^{(n)}(a) = \frac{n!}{2 \pi i} \int_{\gamma} f(z) \frac{dz}{(z-a)^{n+1}}.
+$$
+
+As a simple corollary we can express the coefficient extraction operator $[z^n]$ as a path integral using
+
+\begin{thm}[Cauchy's coefficient formula]
+In the above setting, where now $\gamma$ surrounds $0$, we find
+\begin{equation*}
+    [z^n] f(z) = \frac{1}{2 \pi i} \int_{\gamma} f(z) \frac{dz}{z^{n+1}}
+\end{equation*}
+\end{thm}
+
+\begin{proof}
+Since $f$ coincidences locally with its Taylor series, we have
+\begin{equation*}
+    [z^n] f(z) = \frac{f^{(n)} (0)}{n!}.
+\end{equation*}
+Therefore applying the integral formula with $a = 0$ proves the claim.
+\end{proof}
+
+Before we proceed to the technique of singularity analysis we need some properties of the Gamma function.
+
+
+
+
+
+
+
+
+
+
+\section{The Gamma Function}
+In this section we will omit all proofs and instead refer to the books \cite{complexanalysis} Chapter XV \$2 and \cite{modernanalysis} Chapter 12 Section 22.
+
+The limit
+\begin{equation}
+\label{eq:gamma1}
+    \Gamma(z) = \lim_{n \to \infty} \frac{n! n^z}{z(z+1)\dots(z+n)}
+\end{equation}
+defines a mermorphic function on $\mathbb{C} \setminus \mathbb{Z}_{\leq 0}$, called the \ul{Gamma function}.
+The poles at $-n$, $n \in \mathbb{N}_0$ are of order 1 with residues $\frac{-1}{n!}$.
+It satisfies the functional equation
+\[
+\Gamma(z+1) = z \Gamma(z)
+\]
+and, therefore, interpolates the factorial since $\Gamma(n) = (n-1)!$ for all $n \in \mathbb{N}$.
+
+We may extend the notion of a binomial coefficient using
+\[
+    \binom{\alpha}{k} = \frac{\Gamma(\alpha + 1)}{\Gamma(k+1) \Gamma(\alpha - k + 1)}
+\]
+for $\alpha \in \mathbb{C} \setminus \mathbb{Z}_{< 0}$. The binomial theorem extends to this as well:
+\begin{equation}
+\label{eq:binomthm}
+    (1+x)^\alpha = \sum_{k = 0}^\infty \binom{\alpha}{k} x^k.
+\end{equation}
+
+This series converges absolutely whenever $|x| < 1$.
+From equation \eqref{eq:gamma1} it is also possible to find bounds for the binomial coefficient:
+\begin{equation}
+\label{eq:binomapprox}
+    \left| \binom{\alpha}{k} \right| \leq C \frac{1}{k^{1 + \operatorname{Re} \alpha}}.
+\end{equation}
+
+Other representation of the function are obtained through the Mellin transform
+\begin{equation}
+\label{eq:gamma2}
+    \Gamma(z) = \int_0^\infty e^{-t} t^{z-1} dt,
+\end{equation}
+which converges for $\operatorname{Re} z > 0$, or via contour integration with a Hankel contour $\mathcal{H}$ (see Figure \ref{fig:hankel}):
+\begin{equation}
+\label{eq:hankelgamma}
+    \frac{1}{\Gamma(z)} = -\frac{1}{2 \pi i} \int_\mathcal{H} (-t)^{-z} e^{-t} dt.
+\end{equation}
+    
+
+
+
+
+
+
+
+
+
+\section{Singularity Analysis}
+\label{section:singularityanalysis}
+
+\noindent In this section we will see that singularities of functions encode useful asymptotic information about the sequence of coefficients of their Taylor series in the origin. It is based on \cite{analyticcombinatorics} Chapter VI and the paper \cite{singularityanalysis}.
+In fact, the case of meromorphic functions is quite straightforward using Cauchy's coefficient formula. One is able to find asymptotic expansions with exponentially small error terms. 
+Unfortunately though, the most interesting examples possess essential singularities. 
+We will, thus, need to develop a theory for a much broader class of functions.
+
+
+\begin{defn}
+Assume $f(z)$ has radius of convergence $R > 0$. A singularity of $f$ with modulus $R$ is called dominant.
+\end{defn}
+
+We focus on functions that have exactly one dominant singularity.
+An extension to a finite number is possible, but it is not necessary for our purposes.
+
+There are two main principles that will be established:
+\begin{enumerate}
+    \item The exponential growth behavior of the sequence of coefficients is determined by the location of the dominant singularity.
+    \item The singularity type determines sub-exponential behavior.
+\end{enumerate}
+
+Our first result aims to set up a catalogue of different singularity types and how they relate to the coefficients of a function possessing such a singularity.
+In order to simplify the proof we will first assume the dominant singularity at $1$ and without any other interfering terms.
+
+\begin{prop}[Function scale]
+Consider the function
+\begin{equation*}
+    f(z) = \left( \frac{1}{1-z} \right)^\alpha \left( \frac{1}{z} \log \frac{1}{1-z} \right) ^{\beta}
+\end{equation*}
+for arbitrary $\alpha \in \mathbb{C} \setminus \mathbb{Z}_{\leq 0}$ and $\beta \in \mathbb{C}$. 
+The sequence of coefficients of the Taylor series expansion at the origin can be expanded asymptotically for large $n$ as
+\begin{equation*}
+    [z^n] f(z) \sim \frac{n^{\alpha - 1} (\log n)^{\beta}}{\Gamma (\alpha)}  \left( 1 + O \left( \frac{1}{\log n} \right) \right).
+\end{equation*}
+\end{prop}
+
+
+To give the complex exponents and logarithms a meaning we choose the principal branch cutting the complex plane at the line $\mathbb{R}_{\leq 0}$. 
+The factor $\frac{1}{z}$ was only introduced to make $f$ analytic in the origin for all exponents $\beta$.
+In fact, it can be dropped without changing the asympotic expansion around $z = 1$ (see \cite{singularityanalysis} Corollary 6 for details).
+
+
+\begin{figure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \resizebox{\linewidth}{!} {
+            \input{figures/hankel} 
+        }
+        \caption{Hankel contour $\mathcal{H}$}
+        \label{fig:hankel}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \resizebox{\linewidth}{!} {
+            \input{figures/cutoffhankel} 
+        }
+        \caption{$\gamma(n, R)$}
+        \label{fig:cutoffhankel}
+    \end{subfigure}
+    \caption{}
+ \end{figure}
+
+
+
+
+
+\begin{proof}
+Let $\gamma = \gamma(n, R)$ be a simple loop, which winds around the singularity at distance $1/n$ and is closed by an arc with center 0 and radius $R$ with subdivision $\gamma = \gamma_1 \sqcup \gamma_2$ as indicated in Figure \ref{fig:cutoffhankel}. 
+Using Cauchy's coefficient formula we write
+\begin{equation*}
+    f_n = f_n^{(1)} + f_n^{(2)} = [z^n] f(z) = \frac{1}{2 \pi i} \int_{\gamma} f(z) \frac{dz}{z^{n+1}}, 
+\end{equation*}
+where $f_n^{(j)}$ is the integral over $\gamma_j$.
+
+Since on the surrounding circle $\gamma_2$ we have
+\begin{equation}
+    f_n^{(2)} = O(R^{-n}), \label{eq:outercirclebound}
+\end{equation}
+its contribution to the sum is negligible, e.g. much smaller than the wanted precision, and we only need to consider the open contour $\gamma_1$ that is left.
+
+Now we apply the transformation
+\begin{equation*}
+    z = 1 + \frac{t}{n}
+\end{equation*}
+to obtain the new contour $\gamma'_1 = \gamma'_1(n, R)$, which now winds around $0$ keeping distance $1$ to the interval $[0,R n]$:
+\begin{align*}
+    &f_n^{(1)} = \frac{1}{2 \pi i} \frac{1}{n} \int_{\gamma'_1} f\left(1 + \frac{t}{n}\right) \left( 1+\frac{t}{n} \right)^{-n-1} dt \\
+    &= \frac{1}{2 \pi i} n^{\alpha - 1} \int_{\gamma'_1} (-t)^{-\alpha} \log \left( -\frac{n}{t} \right)^\beta \left(1+\frac{t}{n} \right)^{-n - 1 - \beta} dt \\
+    &= \frac{1}{2 \pi i} n^{\alpha - 1} (\log n)^\beta \int_{\gamma'_1} (-t)^{-\alpha} \left(1 - \frac{\log(-t)}{\log(n)} \right) ^\beta \left(1+\frac{t}{n} \right)^{-n - 1 - \beta} dt \\
+    &= \frac{1}{2 \pi i} n^{\alpha - 1} (\log n)^\beta \int_{\gamma'_1} (-t)^{-\alpha} e^{-t} \left(1 - \frac{\log(-t)}{\log(n)} \right) ^\beta g(t, n) dt, 
+\end{align*}
+where 
+\begin{equation*}
+    g(t, n) = e^t \left(1+\frac{t}{n} \right)^{-n - 1 - \beta}.
+\end{equation*}
+
+Obviously, we have $g(t,n) \to 1$ as $n \to \infty$. 
+Therefore, by dominated convergence, we can approximate the integral:
+\begin{equation*}
+    f_n^{(1)} \sim  \frac{1}{2 \pi i} n^{\alpha - 1} (\log n)^\beta \int_{\gamma'_1} (-t)^{-\alpha} e^{-t} \left(1 - \frac{\log(-t)}{\log(n)} \right) ^\beta dt.
+\end{equation*}
+
+Next, we split the contour $\gamma'_1$ into $\eta_1$ and $\eta_2$, such that $\eta_1$ contains all points $t$ with $\operatorname{Re} t \leq (\log n)^2$ and $\eta_2$ contains all points with $\operatorname{Re} t \geq (\log n)^2$. 
+We denote their integrals by $f_n^{(1, 1)}$ and $f_n^{(1, 2)}$, respectively, but the latter is in fact negligible: for large $n$ each point in $\eta_2$ is of the form $\exp(-\lambda (\log n)^2)$, $\lambda \geq 1$, hence
+\begin{equation*}
+    f_n^{(1, 2)} = O(\exp(-(\log n)^2)).
+\end{equation*}
+Because of this and \eqref{eq:outercirclebound}, we may let $R$ tend to $+\infty$ to obtain a proper Hankel-type contour $\mathcal{H}$ as in Figure \ref{fig:hankel}, while still having
+\begin{equation*}
+    f_n = f_n^{(1)} + f_n^{(2)} = f_n^{(1,1)} + f_n^{(1,2)} + f_n^{(2)} \sim f_n^{(1,1)}.
+\end{equation*}
+
+Along $\eta_1$ we know that $|log(-t)| < \log n$ for large $n$ (follows from $\log(|t|) \leq \log((\log n)^2)$), so we may apply the generalized binomial theorem (see equation \eqref{eq:binomthm} above) to obtain the (pointwise) convergent series expansion
+\begin{equation*}
+    \left(1 - \frac{\log(-t)}{\log(n)} \right)^\beta = \sum_{k=0}^\infty \binom{\beta}{k} (-1)^k \left( \frac{\log(-t)}{\log(n)} \right) ^k.
+\end{equation*}
+After plugging this back into the integral, resulting in the form
+\begin{equation*}
+    f_n^{(1, 1)} \sim C \int_{\eta_1} \sum_{k=0}^\infty h_{n, k}(t) dt, 
+\end{equation*}
+we would like to interchange infinite summation and integration. 
+Because
+\begin{equation*}
+    h_{n, k}(t) = (-1)^k (-t)^{-\alpha} e^{-t} \binom{\beta}{k} \left( \frac{\log(-t)}{\log(n)} \right) ^k
+\end{equation*}
+is continuous on $\eta_1$, hence integrable, we only need to show uniform convergence of the series:
+
+We first observe that the factor $|(-t)^{-\alpha} e^{-t}|$ is bounded by a constant $C = C(n)$ on $\eta_1$.
+For the next factor there is a constant $D$ such that
+\begin{equation*}
+    \left| \binom{\beta}{k} \right| \leq \frac{D}{k^{1+\operatorname{Re} \beta}} 
+\end{equation*}
+using estimate \eqref{eq:binomapprox} from the last section. Lastly, there is also a constant $E < 1$ such that for large $n$ we get the estimate
+\begin{equation*}
+    |\log(-t)| \leq \log( (\log n)^2 ) < E \log n.
+\end{equation*}
+Together these three estimates show that for all $t \in \eta_1$ and $n$ sufficiently large, we have
+\begin{align*}
+    \sum_{k=0}^\infty h_{n, k}(t) \leq C D \sum_{k=0}^\infty \frac{1}{k^{1+\operatorname{Re} \beta}} E^k < \infty.
+\end{align*}
+This, in fact, satisfies the Weierstraß M-test (see \cite{wmtest}) giving us uniform convergence.
+
+We may now switch integration and summation, and, after utilizing the contour integral representation \ref{eq:hankelgamma} of the reciprocal gamma function derived in the last section, we finally obtain
+\begin{align}
+    f_n &\sim \frac{1}{2 \pi i} n^{\alpha - 1} (\log n)^\beta \sum_{k = 0}^\infty (-1)^k \binom{\beta}{k} (\log n)^{-k} \int_{\mathcal{H}} (-t)^{-\alpha} e^{-t} (\log(-t))^k dt \nonumber \\
+    &= n^{\alpha - 1} (\log n)^\beta \sum_{k=0}^\infty \frac{1}{(\log(n))^k} \binom{\beta}{k} \frac{\partial^k}{\partial \alpha^k} \frac{1}{\Gamma(\alpha)}. \label{eq:asymptoticexpansion}
+\end{align}
+\end{proof}
+
+
+
+Note that the full asymptotic expansion in \eqref{eq:asymptoticexpansion} can be used, whenever more precision is needed.
+
+This proposition hints to the second principle, which we stated earlier. However, clearly not all generating functions appearing in practice are of the required form. A tool to translate the occuring error terms is necessary.
+
+\begin{defn}
+For parameters $\zeta \in \mathbb{C}\setminus \{0\}$, $R > |\zeta|$, $0<\phi<\frac{\pi}{2}$, a Pacman domain $\mathcal{P}(\zeta, R, \phi)$ is defined by the domain
+\begin{equation*}
+    \mathcal{P} = \{z \in \mathbb{C} : |z| < R, |\arg(z/\zeta - 1)| > \phi \}.
+\end{equation*}
+A function is called Pacman-analytic if it is analytic in some Pacman domain $\mathcal{P}(\zeta, R, \phi)$. 
+\end{defn}
+
+
+
+
+\begin{prop}[Error transfer]
+Let $f$ be a $(1, R, \theta)$-Pacman-analytic function, that satisfies
+\begin{equation*}
+    |f(z)| \leq A \left| \left( \left( \frac{1}{1-z} \right)^\alpha \left( \log \frac{1}{1-z} \right)^\beta \right) \right|
+\end{equation*}
+inside its Pacman-domain for arbitrary $\alpha, \beta \in \mathbb{R}$. Then we can approximate its sequence of coefficients by
+\begin{equation*}
+    [z^n] f(z) = O(n^{\alpha - 1} (\log n)^\beta).
+\end{equation*}
+for large $n$.
+\end{prop}
+
+\begin{proof}
+First, we note that due to the Pacman analyticity of $f$
+Again, we use the coefficient formula.
+In order to capture the properties of the critical point in $1$ we choose loops $\gamma(n)$ which slowly approach it.
+With parameters $1 < r < R$ and $\phi < \theta < \pi/2$ the individual parts are explicitly described as follows:
+\begin{align*}
+    c_1(n) &= \left\{ |z-1| = \frac{1}{n}, |\arg(z-1)| \geq \theta \right\} \\
+    c_2(n) &= \left\{ |z| = r, |\arg(z-1)| \geq \theta \right\} \\
+    l_1(n) &= \left\{ \lambda e^{i \theta} + 1, \lambda \in [1/n, r] \right\} \\
+    l_2(n) &= \overline{l_1(n)}
+\end{align*}
+
+We start with the inner circle part $c_1(n)$.
+Since $|z-1| = 1/n$ we have
+\begin{align*}
+    |f(z)| &\leq A n^\alpha (\log n)^\beta \\
+    |z^{-n-1}| &\leq B
+\end{align*}
+and the contour of integration is bounded by $2\pi/n$.
+In total:
+\begin{equation*}
+    \frac{1}{2 \pi i} \int_{c_1(n)} f(z) \frac{dz}{z^{n+1}}
+    \leq C \frac{1}{n} n^\alpha (\log n)^\beta
+    = O({n^{\alpha - 1} (\log n)^\beta})
+\end{equation*}
+for constants $A, B, C$.
+
+The outer circle part is even easier. Here, $|f(z)|$ is bounded since $|z| = r > 1$, while $z^{-n-1}$ is $O(r^{-n-1})$, therefore irrelevant in the claimed scale of the problem.
+
+Now we process $l_1(n)$. The integral over this part shall be denoted by $L_n$.
+We apply the affine-linear transformation $t = e^{-i \theta} n (z - 1)$. 
+Reading from the right, the line's starting point is first moved onto the circle with radius $1/n$, then scaled onto the unit circle (the line now has length $nr - 1$), and finally rotated onto the real line.
+Thus, in the integral we get
+\begin{align}
+    L_n &= \frac{1}{2 \pi i} \int_{l_1(n)} f(z) \frac{dz}{z^{n+1}}
+    = \frac{1}{2 \pi i} \int_1^{r n} f \left( 1 + \frac{t e^{i \theta} }{n} \right) \left( 1 + \frac{t e^{i \theta}}{n} \right)^{-n-1} \frac{e^{i \theta}}{n} dt \nonumber \\
+    &\leq \frac{1}{2 \pi} \int_1^{r n} \left|  f \left( 1 + \frac{t e^{i \theta} }{n} \right)  \right| \left| 1 + \frac{t e^{i \theta}}{n} \right|^{-n-1} \frac{1}{n} dt \label{eq:integralonline}.
+\end{align}
+By assumption there is a constant $C$ such that 
+\begin{align*}
+    \left|  f \left( 1 + \frac{t e^{i \theta} }{n} \right)  \right|
+    \leq C \left( \frac{n}{t} \right)^\alpha \left| \log \left( \frac{n}{t e^{i \theta}} \right ) \right|^{\beta}.
+\end{align*}
+Also, the estimate
+\begin{equation*}
+    \left| \log \frac{n}{t e^{i \theta}} \right|^\beta 
+    \leq \max_{t \in [1, r n]} \left| \log \frac{n}{t} - \theta \right|^\beta 
+    = O((\log n)^\beta)
+\end{equation*}
+can be easily verified by distincting cases where $\beta \leq 0$ or $\beta \geq 0$ and choosing $r$ very near to $1$ (how near depends only $\theta$, therefore possible without loss of generality).
+Using these considerations inside \eqref{eq:integralonline} leads to
+\begin{equation*}
+    L_n = O(n^{\alpha - 1} (\log n)^\beta) J_n,
+\end{equation*}
+where for $J_n$ we have
+\begin{align*}
+    J_n = \int_1^{r n} t^{-\alpha} \left| 1 + \frac{t e^{i \theta}}{n} \right|^{-n-1} dt 
+    \leq \int_1^\infty t^{-\alpha} \left( 1 + \frac{t}{n} \operatorname{Re} e^{i \theta} \right)^{-n-1} dt \\
+    = \int_1^\infty t^{-\alpha} \left( 1 + \frac{t \cos \theta}{n} \right)^{-n-1} dt
+    \leq \int_1^\infty t^{-\alpha} e^{-t \cos \theta} dt < \infty.
+\end{align*}
+The second estimate can be followed from the monotone convergence theorem and the last integral exists since $0 < \cos \theta < 1$.
+
+The remaining line works just like this, when exchanging $\theta$ for $-\theta$. Thus, the claim follows after putting all four parts together.
+\end{proof}
+
+
+Now we have all ingredients together to formulate the central theorem of singularity analysis (with one dominant singularity) and, thereby, give an exact formulation of the two principles from the last section.
+
+
+\begin{thm}[Singularity analysis]
+\label{thm:singana}
+Define the two sets
+\begin{align*}
+    S &= \{ f(z) = \left( \frac{1}{1-z} \right)^\alpha \left( \log \frac{1}{1-z} \right) ^{\beta} : \alpha \in \mathbb{C}\setminus\mathbb{Z}_{\leq 0}, \beta \in \mathbb{C} \} \\
+    E &= \{ f(z) = \left( \frac{1}{1-z} \right)^\alpha \left( \log \frac{1}{1-z} \right)^\beta : \alpha, \beta \in \mathbb{R} \}.
+\end{align*}
+Let $f$ be a Pacman analytic function eating the singularity $\zeta$ of $f$.
+Assume that there exist a finite linear combination $s$ of functions in $S$ and a function $e \in E$ such that 
+\begin{equation*}
+    f(z) = s \left( \frac{z}{\zeta} \right) + O \left( e \left( \frac{z}{\zeta} \right) \right)
+\end{equation*}
+as $z \to \zeta$. Then:
+\begin{equation*}
+    [z^n] f(z) \sim \zeta^{-n} s^*(n) + O(\zeta^{-n} e^*(n)), 
+\end{equation*}
+where $s^*$ and $e^*$ have their coefficients determined in the obvious way by the last two propositions.
+\end{thm}
+
+\begin{proof}
+    If we define $g(z) = f(z/\zeta)$, the singularity has been moved to $1$.
+    Thus, we may apply the propositions to compute $s^*$ and $e^*$.
+    Finally, we note that $[z^n] f(z) = \zeta^{-n} [z^n] g(z)$.
+\end{proof}
+
+
+
+
+
+\begin{exm}[Continuation of Example \ref{ex:reggraphs}]
+\label{exm:anareggraphs}
+
+We found the EGF
+\[
+    R(z) = \frac{\exp\left(-\frac{z}{2}-\frac{z^2}{4}\right)}{\sqrt{1-z}}.
+\]
+The singularity at $z=1$ appears in the denominator while the numerator is, in fact, an entire function. 
+By expanding the numerator at $z=1$ we find
+\[
+    R(z) = \frac{e^{-3/4}}{\sqrt{1-z}} + e^{-3/4}\sqrt{1-z} + O((1-z)^{3/2}).
+\]
+Then, we apply Theorem \ref{thm:singana} to obtain
+\[
+    n! [z^n] R(z) = n!\left(\frac{e^{-3/4}}{\sqrt{\pi n}} - \frac{e^{-3/4}}{2 \sqrt{\pi n^3}} + O\left( \frac{1}{n^{5/2}} \right) \right).
+\]
+\end{exm}
+
+
+
+\begin{exm}[Continuation of Examples \ref{ex:polys} and \ref{ex:polyprob}]
+\label{exm:anapoly}
+
+The OGF $I(z)$ has singularities whenever $z = \sqrt[k]{\frac{1}{p}}$.
+Thus, there is a single dominant singularity at $z = \frac{1}{p}$.
+We write
+\[
+    I(z) = \log \frac{1}{1-pz} + R(z).
+\]
+with $R(z) = \sum_{k=2}^\infty \frac{\mu(k)}{k} \log \frac{1}{1 - p z^k}$, which is clearly holomorphic at $z = 1/p$. Thus, $R(z) = C + O(z)$.
+The expansion of the first summand is straighforward and does not require an application of the singularity analysis theorem.
+In total:
+\[
+[z^n] I(z) \sim \frac{p^n}{n} + O\left( \frac{1}{n} \right).
+\]
+
+Applying singularity analysis with more expansion terms (see the proof) to the mean number of irreducible factors in a degree-$n$ polynomial yields
+\begin{align*}
+    \mathbb{E}_{\mathcal{P}_n}(\chi) 
+    &= p^{-n} [z^n] P(z) ( I(z) + R_1(z)) \\
+    &= p^{-n} [z^n] \frac{1}{1-pz} \left( \log\left(\frac{1}{1-pz}\right) + R(z) + R_1(z) \right) \\
+    &= p^{-n} [z^n] \frac{1}{1-pz} \log\left(\frac{1}{1-pz}\right) + \frac{1}{1-pz}(R(z) + R_1(z)) \\
+    &\sim \log n + \gamma + R(1/p) + R_1(1/p) + O((\log n)^{-1}).
+\end{align*}
+for $z$ near $1/p$.
+For the variance we find similarly
+\[
+    \mathbb{V}_{\mathcal{P}_n}(\chi)  = O(\log n).
+\]
+\end{exm}
+
+
+
+
+
+\begin{exm}[Continuation of Example \ref{ex:parts}]
+This example shows up the limits of this method. Even if we had developed the theory for finitely many dominant singularities, it would fail here.
+The reason is that the generating function of partitions
+\[
+    P(z) = \prod_{k=1}^\infty \frac{1}{1-z^k}.
+\]
+is holomorphic inside the unit disc but the singularities on the unit circle lie dense (the roots of unity).
+We need different methods here. (for example the saddle-point method, \cite{analyticcombinatorics} Chapter VIII).
+\label{exm:anaparts}
+
+\end{exm}

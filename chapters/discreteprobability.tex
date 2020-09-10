@@ -1,0 +1,186 @@
+In this chpater (based on \cite{analyticcombinatorics} Chapter III and Appendix A.3) we introduce concepts to analyse combinatorial structures with respect to more specific parameters than just how many objects there are of a specific size.
+For example, a typical use case could be to analyse how many components of size $k$ an object of size $n$ is built of.
+More generally, one might also ask about how many components can be expected in a \textit{random} object.
+Hence, we need methods from discrete probability theory, which shall be introduced in the next section.
+
+Throughout this chapter, we use the notations $w_n \in \{1, n!\}$ and $\xrightarrow{*GF}$ in order to develop the theory for OGFs and EGFs simultaneously.
+
+\section{Basic concepts}
+
+\begin{defn}
+Let $\mathcal{S}$ be a finite set. 
+We call a function $\mathbb{P}: \mathcal{S} \to \mathbb{R}$ defined by
+\begin{equation*}
+    \mathbb{P}(\sigma) = p_\sigma
+\end{equation*}
+a \ul{(discrete) probability measure} of $\mathcal{S}$ if all $p_\sigma \in \mathbb{R}_{\geq 0}$ add up to $1$. The probability of a subset $\mathcal{E} \subseteq \mathcal{S}$ is measured by
+\begin{equation*}
+    \mathbb{P} \{ \mathcal{E} \} = \sum_{\sigma \in \mathcal{E}} \mathbb{P}(\sigma).
+\end{equation*}
+In particular, if $\mathbb{P}(\sigma) = \frac{1}{\# \mathcal{S}}$ for each $\sigma \in \mathcal{S}$, we call $\mathbb{P}$ the \ul{uniform probability measure} of $\mathcal{S}$.
+\end{defn}
+
+\begin{defn}
+A \ul{(discrete) random variable} of a finite set $\mathcal{S}$ with probability measure $\mathbb{P}$ is a function $X: \mathcal{S} \to \mathbb{N}_0$.
+We write
+\begin{equation*}
+    \mathbb{P}\{X = k\} = \sum_{X(\sigma) = k} \mathbb{P}(\sigma)
+\end{equation*}
+for the probability distribution associated to $X$.
+\end{defn}
+
+\begin{defn}
+Let $X$ be a random variable of $(S, \mathbb{P})$ and let $f: \mathbb{N}_0 \to \mathbb{R}$ be a function. The \underline{expectation} of $f(X)$ is defined by the linear functional
+\begin{equation}
+\label{eq:expectation}
+    \mathbb{E}(f(X)) = \sum_{k \in \mathbb{N}_0} \mathbb{P}\{ X = k \} f(k).
+\end{equation}
+Important examples are the \ul{mean} with $f(X) = X$ and the \ul{variance} $\mathbb{V}(X)$ given by $f(X) = (X - \mathbb{E}(X))^2$.
+\end{defn}
+
+\noindent Note that the variance might also be expressed as
+\begin{equation*}
+    \mathbb{V}(X) = \mathbb{E}(X^2) - \mathbb{E}(2 \mu X)+ \mathbb{E}(\mu ^2) = \mathbb{E}(X^2) - 2 \mu^2 + \mu^2 = \mathbb{E}(X^2) - \mu^2
+\end{equation*}
+with $\mu = \mathbb{E}(X)$.
+
+
+
+
+
+
+
+
+
+\section{Probability Generating Functions}
+
+Let us now see how these concepts integrate into the theory of generating functions.
+Due to the fundamentally different treatment of DGFs, only power series generating functions are considered in this section. 
+
+\begin{defn}
+\label{def:combiparam}
+A \ul{parameter} of a combinatorial class $\mathcal{A}$ is a function $\chi: \mathcal{A} \to \mathbb{N}_0$.
+Using the extended counting sequence
+\begin{equation*}
+    a_{n,k} = \# \{  \alpha \in \mathcal{A} : |\alpha| = n, \chi(\alpha) = k  \}
+\end{equation*}
+we define the bivariate generating function (BGF) of $(\mathcal{A}, \chi)$ to be the formal power series in two indeterminants $z$ and $u$
+\begin{equation*}
+    A(z,u) = \sum_{n,k \geq 0} a_{n,k} \frac{z^n}{w_n} u^k.
+\end{equation*}
+\end{defn}
+
+In general, combinatorial classes do not need to be finite. Thus, parameters are not the same as random variables.
+However, since all $\mathcal{A}_n \subseteq \mathcal{A}$ are always finite, a parameter induces a random variable:
+
+Let $\mathcal{A}$ be a combinatorial class with some parameter $\chi$.
+We denote the uniform probability measure over $\mathcal{A}_n$ by $\mathbb{P}_{\mathcal{A}_n}$.
+Considering $\chi$ as a random variable over $\mathcal{A}_n$ we have
+\begin{equation}
+\label{eq:paramprob}
+    \mathbb{P}_{\mathcal{A}_n}(\chi = k) = \frac{a_{n,k}}{a_n}
+\end{equation}
+since $a_n = \sum_{k=0}^\infty a_{n,k}$ ($a_{n,k}$ defined as in definition \ref{def:combiparam}).
+
+\begin{defn}
+Using the notations above, the \ul{probability generating function} (PGF) of the parameter $\chi$ restricted to $\mathcal{A}_n$ is defined as the formal power series
+\begin{equation}
+\label{eq:pgf}
+    P_{\mathcal{A}_n}(u) = \sum_{k=0}^\infty \mathbb{P}_{\mathcal{A}_n}(\chi = k) u^k,
+\end{equation}
+where $u$ is a formal indeterminant.
+\end{defn}
+
+The PGF clearly encodes information about the probability distribution of the parameter. In the next result we extract important pieces of it.
+It is a very simple consequence of equations \eqref{eq:expectation} and \eqref{eq:pgf}.
+
+\begin{prop}
+\label{thm:variance}
+Let $P_{\mathcal{A}_n}(u)$ be the PGF of the restricted parameter $\chi$ on $\mathcal{A}_n$.
+For an integer $k > 0$ and $f(X) = X (X - 1) \dots (X - k + 1)$ we find
+\begin{equation*}
+    \mathbb{E}(f(\chi)) = \eval{\frac{d^k}{d u^k} P_{\mathcal{A}_n}(u)}_{u = 1}.
+\end{equation*}
+In particular (using the linearity of $\mathbb{E}$):
+
+\begin{equation*}
+    \mathbb{E}(\chi) = \eval{\frac{d}{d u} P_{\mathcal{A}_n}(u)}_{u = 1}
+    \textit{\quad and \quad}
+    \mathbb{E}(\chi^2) = \eval{\frac{d^2}{d u^2} P_{\mathcal{A}_n}(u)}_{u = 1} +  \eval{\frac{d}{d u} P_{\mathcal{A}_n}(u)}_{u = 1}. \proofclear
+\end{equation*}
+\end{prop}
+
+Furthermore, applying equation \eqref{eq:paramprob} yields:
+
+\begin{prop}[Connection of BGF and PGF]
+\label{thm:pgfbgf}
+Let $\mathcal{A}$ be a combinatorial class and $\chi$ a parameter. For the BGF $A(z,u)$ of $(\mathcal{A}, \chi)$ and the PGF $P_{\mathcal{A}_n}(u)$ of the restriction of $\chi$ to $\mathcal{A}_n$ we find
+\begin{equation*}
+    P_{\mathcal{A}_n}(u) = \frac{[z^n] A(z,u)}{[z^n] A(z,1)}. \proofclear
+\end{equation*} 
+\end{prop}
+
+In the next section we will develop a method to easily compute BGFs.
+Thus, the last proposition allows us to make statements about the probability distribution of the regarded parameter directly from the BGF.
+
+
+
+
+
+
+
+
+\section{Markers}
+
+As already noted above, a main part of this whole chapter is to analyze the building blocks of combinatorial constructions.
+In order to \textit{mark} whatever components of a structure we would like to count, we extend the theory of combinatorial constructions for OGFs and EGFs.
+
+\begin{defn}
+Suppose the class $\mathcal{A}$ is constructed from another class $\mathcal{B}$ by
+\begin{equation*}
+    \mathcal{A} = \mathcal{K} (\mathcal{B}), 
+\end{equation*}
+where $\mathcal{K} \in \{ \operatorname{Seq}, \operatorname{MSet} \}$ for OGFs and $\mathcal{K} \in \{ \operatorname{Seq}, \operatorname{Set}, \operatorname{Cyc}, \operatorname{UCyc} \}$ for EGFs.
+A \ul{marker} on the components $\mathcal{B}$ in $\mathcal{A}$ is a class $\mu$ attached to $\mathcal{B}$ by product (unlabelled or labelled), which translates (in OGF or EGF sense) to the new formal indeterminant $u$ making the GF bivariate. In symbols, 
+\begin{equation*}
+    \mathcal{A} = \mathcal{K}(\mu \mathcal{B}) \xrightarrow{*GF} A(z,u) = \sum_{n,k=0}^\infty a_{n,k} \frac{z^n}{w_n} u^k.
+\end{equation*}
+\end{defn}
+
+Note that markers do not have any influence on the size.
+They give rise to parameters. Indeed, the sets $\mathcal{A}_{n,k}$ partition $\mathcal{A}$, so setting $\chi(\alpha) = k$ for all $\alpha \in \mathcal{A}_{n,k}$ yields a well-defined parameter $\chi$ on $\mathcal{A}$.
+With the induced random variables $\chi$ (the restrictions to $\mathcal{A}_n$) we find that $\mathbb{P}_{\mathcal{A}_n}(\chi = k)$ measures the probability of a random size-$n$-object in $\mathcal{A}$ having $k$ markers, e.g. consisting of $k$ components from $\mathcal{B}$.
+
+
+
+
+
+\begin{exm}[Continuation of Example \ref{ex:polys}]
+\label{ex:polyprob}
+An interesting question concerning polynomials over finite fields would be: how many irreducible factors can a random polynomial of degree $n$ be expected to have?
+We have developed all the tools necessary to tackle this problem combinatorially.
+
+Let $\mu$ be marking the $\mathcal{I}$-components in $\mathcal{P}$. 
+Written out we have, 
+\begin{equation*}
+    \mathcal{P} = \operatorname{MSet}(\mu \times \mathcal{I}) \xrightarrow{OGF} P(z,u) = \exp\left( \sum_{k=1}^\infty \frac{1}{k} u^k I(z^k) \right).
+\end{equation*}
+Using Propositions \ref{thm:variance} and \ref{thm:pgfbgf} we find for the induced random variable $\chi$ on $\mathcal{P}_n$ that
+\begin{align*}
+    \mathbb{E}_{\mathcal{P}_n}(\chi) &= \eval{\frac{\partial}{\partial u} \frac{[z^n] P(z,u)}{[z^n] P(z)}}_{u = 1} 
+    = p^{-n} [z^n] \eval{\frac{\partial}{\partial u}P(z,u)}_{u = 1} \\
+    &= p^{-n} [z^n] P(z) ( I(z) + R_1(z))
+\end{align*}
+with $R_1(z) = \sum_{j=2}^\infty I(z^j)$. 
+This gives us the mean of the number of components in $\mathcal{P}$, thus answers our question after extracting coefficients.
+
+The variance follows similarly. First, 
+\begin{align*}
+    \mathbb{E}_{\mathcal{P}_n}(\chi^2) &= \mathbb{E}_{\mathcal{P}_n}(\chi (\chi - 1)) + \mathbb{E}_{\mathcal{P}_n}(\chi)\\
+    &= p^{-n} [z^n] P(z) \left( I(z) + R_2(z) \right) + p^{-n} [z^n] P(z) ( I(z) + R_1(z)) \\
+    &= p^{-n} [z^n] P(z) (2 I(z) - R_1(z) + R_2(z)), 
+\end{align*}
+where $R_2(z) = \sum_{j=2}^\infty k I(z^j)$.
+Plugging this into the formula of Proposition \ref{thm:variance} gives us the variance.
+In order to get an idea of how mean and variance behave with increasing $n$ we further pursue this in Example \ref{exm:anapoly}.
+\end{exm}

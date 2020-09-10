@@ -1,0 +1,565 @@
+This chapter is devoted to the basic notations and computation of generating function.
+Furthermore, we tackle the question of which generating function to use for which kind of problem.
+
+The first two section of this chapter are based on \cite{analyticcombinatorics} Chapters I and II, whereas the third is based on Section 2.6 of \cite{generatingfunctions}.
+
+\begin{defn}
+Let $\mathcal{C}$ be a set together with a size function $| \cdot | \colon \mathcal{C} \to \mathbb{N}_0$. 
+We denote by $\mathcal{C}_n$ the set of all objects $\gamma \in \mathcal{C}$ such that $|\gamma| = n$ and we write $a_n = \#\mathcal{A}_n$.
+
+If $\mathcal{C}$ is countable and all $a_n$ are finite we call the pair $(\mathcal{C}, | \cdot |)$ a \ul{combinatorial class} or \ul{combinatorial structure} and the sequence $\{a_n\}_{n \in \mathbb{N}_0}$ its \ul{counting sequence}.
+
+Two combinatorial classes $\mathcal{A}$ and $\mathcal{B}$ are called \ul{isomorphic} if there is a bijective map $\phi$ between them, which preserves size.
+In that case we write $\mathcal{A} = \mathcal{B}$ ("overwriting" set equality).
+\end{defn}
+
+\begin{defn}
+To each combinatorial class $\mathcal{C}$ with counting sequence $\{ c_n \}$ we can associate a formal series in the indeterminant $z$, called a \underline{generating function}, in the following ways:
+\begin{itemize}
+    \item The \underline{ordinary generating function} of $\mathcal{C}$ is defined by
+    \begin{equation*}
+        C(z) = \sum_{\gamma \in \mathcal{C}} z^{|\gamma|} = \sum_{n=0}^\infty c_n z^n.
+    \end{equation*}
+    We denote the transition from the class to its OGF by $\mathcal{C} \xrightarrow{OGF} C(z).$
+    
+    \item The \underline{exponential generating function} of $\mathcal{C}$ is defined by
+    \begin{equation*}
+        C(z) = \sum_{\gamma \in \mathcal{C}} \frac{z^{|\gamma|}}{|\gamma|!} = \sum_{n=0}^\infty c_n \frac{z^n}{n!}.
+    \end{equation*}
+    The transition is denoted by $\mathcal{C} \xrightarrow{EGF} C(z).$
+    
+    \item If $c_0 = 0$, we define the \underline{Dirichlet generating function} of $\mathcal{C}$ to be
+    \begin{equation*}
+        C(z) = \sum_{\gamma \in \mathcal{C}} |\gamma|^{-z} = \sum_{n=1}^\infty \frac{c_n}{n^z}
+    \end{equation*}
+    with notation $\mathcal{C} \xrightarrow{DGF} C(z)$.
+\end{itemize}
+The \underline{coefficient extraction operators} $[z^n]$, $n![z^n]$ and $[n^{-z}]$ map a generating function to its coefficient of $z^n$, $z^n/n!$ and $n^{-z}$, respectively.
+\end{defn}
+
+We will always use the same letter in different variations for combinatorial class, counting sequence and generating function ($\mathcal{A}$, $a_n$ and $A(z)$, for instance). 
+Also, if there are multiple classes in play, the size function will be subscripted with the letter of the belonging class, i.e. $|\cdot|_\mathcal{A}$. 
+
+Now we have three different ways at hand to translate a combinatorial class into a generating function. 
+The question, which one to use in a particular problem, is treated at the beginning of each of the next sections, where the combinatorial meaning behind them is explained.
+
+
+
+
+
+
+
+
+
+\section{Unlabelled Classes and Ordinary Generating Functions}
+
+In all three cases it is very helpful to first look at the way the functions multiply. 
+The reason is that most combinatorial classes can be constructed from simpler classes, thus counting all objects of a specific size can often be broken down to counting objects of smaller sizes and then merge these counts together in some way. 
+This process frequently involves products of generating functions as we will see in this chapter.
+
+In this case, a product of OGFs $C(z) = A(z) B(z)$ satisfies
+\begin{equation}
+\label{eq:ogf mult}
+    [z^n] C(z) = \sum_{k=0}^n a_k b_{n-k}.
+\end{equation}
+This means: The objects of the class $\mathcal{C}$ of size $n$ are assembled from size-$k$-objects $\mathcal{A}$ and and size-$(n-k)$-objects of $\mathcal{B}$. 
+The sum iterates through all possibilities. 
+Furthermore, this formula exactly counts how many new objects appear, when two "unlabelled" structures are merged together (more detail below). 
+
+The term "unlabelled" means that we do not distinguish between the basic building blocks of the structure. 
+This is best understood by visualizing (see Figure \ref{fig:unlabelled labelled}) and by comparison with the labelled case in the next section.
+We call a combinatorial class, which we intend to translate into an ordinary generating function a \ul{labelled class}.
+
+\begin{figure}
+    \begin{subfigure}[b]{0.30\textwidth}
+        \centering
+        \resizebox{\linewidth}{!} {
+            \input{figures/unlabelled} 
+        }
+    \end{subfigure}
+    \begin{subfigure}[b]{0.30\textwidth}
+        \centering
+        \resizebox{\linewidth}{!} {
+            \input{figures/labelled1} 
+        }
+    \end{subfigure}
+    \begin{subfigure}[b]{0.30\textwidth}
+        \centering
+        \resizebox{\linewidth}{!} {
+            \input{figures/labelled2} 
+        }
+    \end{subfigure}
+    \caption{Unlabelled versus labelled structures. Three cycles: the left is unlabelled while the middle and right are labelled but differently labelled}
+    \label{fig:unlabelled labelled}
+ \end{figure}
+
+In order to construct a class using simpler objects we now introduce elementary means to do so.
+
+Let $\mathcal{A}$ and $\mathcal{B}$ be combinatorial classes.
+\begin{itemize}
+    \item A \underline{neutral class} is a combinatorial class consisting of a single object, which has size 0.
+    
+    \item Similarly, an \underline{atom} is a combinatorial class consisting of a single size-1-object.
+    
+    \item The \underline{combinatorial sum} of two classes is again a combinatorial class defined as their disjoint union.
+    In symbols, 
+    \begin{equation*}
+        \mathcal{A} + \mathcal{B} := \mathcal{A} \sqcup \mathcal{B}.
+    \end{equation*}
+    We define a size function for $\alpha \in \mathcal{A} + \mathcal{B}$ by
+    \begin{equation*}
+        |\alpha| = \begin{cases}
+            |\alpha|_\mathcal{A}, \quad \textrm{if} \quad \alpha \in \mathcal{A} \\
+            |\alpha|_\mathcal{B}, \quad \textrm{if} \quad \alpha \in \mathcal{B}
+            \end{cases}
+    \end{equation*}
+    
+    \item The \underline{product} of two classes is defined as their cartesian product
+    \begin{equation*}
+        \mathcal{A} \cdot \mathcal{B} := \mathcal{A} \times \mathcal{B}.
+    \end{equation*}
+    Using the size function
+    \begin{equation*}
+        |(\alpha, \beta)| = |\alpha|_\mathcal{A} + |\beta|_\mathcal{B}
+    \end{equation*}
+    the product becomes a combinatorial class.
+    
+    \item If $\mathcal{A}$ contains no objects of size $0$, we define the class of all finite sequences as
+    \begin{equation*}
+        \operatorname{Seq}(\mathcal{A}) = \mathcal{E} + \mathcal{A} + \mathcal{A} \cdot \mathcal{A} + \mathcal{A} \cdot \mathcal{A} \cdot \mathcal{A} + \dots, 
+    \end{equation*}
+    where $\mathcal{E}$ is a neutral class.
+    
+    \item If $\mathcal{A}$ contains no objects of size $0$, we define the combinatorial class of all finite multisets (normal sets, which allow repitions of elements) from elements of $\mathcal{A}$ as
+    \begin{equation*}
+        \operatorname{MSet}(\mathcal{A}) = \operatorname{Seq}(\mathcal{A}) / R, 
+    \end{equation*}
+    where $R$ is the equivalence relation which identifies two sequences whenever they have the same length and are permutations of each other.
+\end{itemize}
+
+Note that there is no need to explicitly define a size function on the last two constructions since they are derived from sum and product.
+On that matter, note as well that the size function on multisets is obviously well-defined.
+
+The OGFs of neutral classes and atoms are simple as they are just $1$ and $z$, respectively.
+The next result establishes a \textit{dictionary} for the translation.
+
+\begin{thm}[Unlabelled dictionary]
+\label{thm:unlabelled dict}
+Let $\mathcal{A}$ and $\mathcal{B}$ be combinatorial classes. 
+The following translation rules hold for OGFs:
+\begin{align*}
+    \mathcal{A} + \mathcal{B} &\xrightarrow{OGF} A(z) + B(z) \\
+    \mathcal{A} \times \mathcal{B} &\xrightarrow{OGF} A(z) B(z) \\
+    \operatorname{Seq}(\mathcal{A}) &\xrightarrow{OGF} \frac{1}{1-A(z)} \\
+    \operatorname{MSet}(\mathcal{A}) &\xrightarrow{OGF} \prod_{n\geq 1} (1-z^n)^{-a_n} = \exp\left( \sum_{k=1}^\infty \frac{1}{k} A(z^k) \right).
+\end{align*}
+\end{thm}
+\begin{proof}
+Sum and Product are immediately verified using the fact that the classes are disjoint for the sum and multiplication formula \eqref{eq:ogf mult} of two OGFs for the product.
+
+The OGF of sequences clearly translates as 
+\begin{equation*}
+    \operatorname{Seq}(\mathcal{A}) \xrightarrow{OGF} A(z) = 1 + A(z) + A(z)^2 + \dots, 
+\end{equation*}
+which is the multiplicative inverse of $1 - A(z)$ (in the formal power series sense).
+
+Multisets require some more work.
+First, note that we can rearrange any multiset into the form $[a, \dots, a, b, \dots, b, c, \dots]$ since order does not matter.
+Therefore, we have the isomorphism
+\begin{equation*}
+    \operatorname{MSet}(\mathcal{A}) = \prod_{\alpha \in \mathcal{A}} \operatorname{Seq}(\{\alpha\}).
+\end{equation*}
+From this, the first claimed product expression follows directly and the second follows after inserting the product expression into $\exp(1 + (\log(\cdot) - 1))$, where $\exp(u)$ and $\log(1+u)$ are defined as formal power series using their usual definition.
+\end{proof}
+
+One might also come across cases where the combinatorial class of interest is only expressible through an implicit equation of classes.
+Then, the next theorem can help.
+
+\begin{thm}[Implicit dictionary for OGFs, \cite{analyticcombinatorics} Theorem I.5]
+\label{thm:implogf}
+Let $\mathcal{A}$ and $\mathcal{B}$ be combinatorial classes. Suppose a third class $\mathcal{X}$ is unknown but specified implicitly. The following rules hold:
+\begin{align*}
+    \mathcal{A} = \mathcal{B} + \mathcal{X} &\implies \mathcal{X} \xrightarrow{OGF} A(z) - B(z) \\
+    \mathcal{A} = \mathcal{B} \times \mathcal{X} &\implies \mathcal{X} \xrightarrow{OGF} \frac{A(z)}{B(z)} \\
+    \mathcal{A} = \operatorname{Seq}(\mathcal{X}) &\implies \mathcal{X} \xrightarrow{OGF} 1 - \frac{1}{A(z)} \\
+    \mathcal{A} = \operatorname{MSet}(\mathcal{X}) &\implies \mathcal{X} \xrightarrow{OGF} \sum_{k \geq 1} \frac{\mu (k)}{k} \log A(z^k).
+\end{align*}
+($\mu$ is the Möbius function)
+\end{thm}
+\begin{proof}
+The first three cases are easy manipulations of formal power series equations. 
+Turning to multisets, we write $L(z) = \log(A(z))$.
+Using Theorem \ref{thm:unlabelled dict} we find
+\[
+    L(z) = \sum_{k=0}^\infty \sum_{j=0}^\infty \frac{1}{k} x_j z^{jk} = \sum_{n=0}^\infty \left( \sum_{d|n} \frac{d}{n} x_d \right) z^n.
+\]
+With $l_n = [z^n] L(z)$ we can compare coefficients and find $n l_n = \sum_{d|n} d x_d$, which satisfies Möbius inversion (see Theorem 2.9 of \cite{numbertheory1}).
+Thus, 
+\[
+    X(z) = \sum_{n=0}^\infty x_n z^n 
+    = \sum_{n=0}^\infty \sum_{d|n} \mu\left(\frac{n}{d}\right) \frac{d}{n} l_d z^n 
+    = \sum_{k=0}^\infty \sum_{j=0}^\infty \frac{\mu(k)}{k} l_k z^{n k}
+\]
+and the claim follows.
+\end{proof}
+
+
+
+The tools developed in this section are very useful when it comes to actually finding ordinary generating functions of unlabelled combinatorial structures. 
+The next two examples demonstrate this process.
+
+
+\begin{exm}[Irreducible polynomials over finite fields]
+\label{ex:polys}
+Consider the finite field $\mathbb{F}_p = \{ 0, 1, \dots, p-1 \}$ for $p$ prime. 
+We are interested in counting various aspects of factorization in the ring of polynomials $\mathbb{F}_p[X]$.
+Without restriction we only need to investigate the subset of monic polynomials (i.e. polynomials with leading coefficient $1$) since the results are easily extendable.
+
+Let $\mathcal{Z}$ be an atom. The field $\mathbb{F}_p$ can be represented as a combinatorial class by adding $p$ copies of $\mathcal{Z}$, where each copy stands for one element of $\mathbb{F}_p$.
+In symbols,
+\begin{equation*}
+    \mathcal{F} = \underbrace{\mathcal{Z} + \dots + \mathcal{Z}}_{p \, \text{times}} \xrightarrow{OGF} F(z) = p z.
+\end{equation*}
+Now, observe that we can interpret any polynomial $\sum_{k=0}^n a_k X^k$ with $a_k \in \mathbb{F}_p$ and $a_n = 1$ as a finite sequence $(a_0, a_1, \dots, a_{n-1})$. The empty sequence represents the constant polynomial $1$.
+Therefore, denoting the class of all monic polynomials by $\mathcal{P}$ we can write
+\begin{equation*}
+    \mathcal{P} = \operatorname{Seq}(\mathcal{F}) \xrightarrow{OGF} P(z) = \frac{1}{1 - F(z)} = \frac{1}{1 - p z}.
+\end{equation*}
+Note that the size of objects in $\mathcal{P}$ equals exactly the degree of the polynomial, which it represents. 
+This is a consequence of our decision to give each element of the base field the size $1$.
+
+On the other hand, using the fact that $\mathbb{F}_p[X]$ is a Euclidean ring, hence a unique factorization domain, we can factorize each polynomial into its irreducible factors. 
+Clearly the order of the factors does not matter, but multiple copies of irreducible factors are allowed.
+As a consequence, we can also construct $\mathcal{P}$ by
+\begin{equation*}
+    \mathcal{P} = \operatorname{MSet}(\mathcal{I}) \xrightarrow{OGF} P(z) = \exp \left( \sum_{k=1}^\infty \frac{1}{k} I(z^k) \right)
+\end{equation*}
+with $\mathcal{I} \xrightarrow{OGF} I(z)$ as the class of all monic irreducible polynomials.
+
+We are now in a situation where the interesting class, $\mathcal{I}$ in this case, is unknown, but we have an implicit equation for its OGF.
+Applying Theorem \ref{thm:implogf} yields
+\begin{equation*}
+    I(z) = \sum_{k = 1}^\infty \frac{\mu (k)}{k} \log \frac{1}{1 - p z^k}.
+\end{equation*}
+
+This is quite a remarkable result on its own. It enables us to compute the number of irreducible polynomials in every given degree just by extracting the corresponding coefficient in this formal power series.
+However, the formula still depends on factorizing natural numbers to evaluate $\mu$, which makes it an unhandy tool, for many practical purposes.
+See Example \ref{ex:polyprob} for an extension of this example.
+\end{exm}
+
+
+\begin{exm}[Conjugacy classes of finite symmetric groups]
+\label{ex:parts}
+Let $S_n$ be the symmetric group of the set $\{1, 2, \dots, n\}$. 
+Each permutation $\sigma \in S_n$ can be uniquely decomposed into a product of disjoint cycles. 
+We assign to $\sigma$ the cycle type $(n_1, \dots, n_r)$ with $n_1 \geq \dots \geq\ n_r \geq 1$ and $\sum_{k=0}^r n_k = n$, if the factors of its decomposition have exactly these lengths.
+Two permutations are in the same conjugacy class, if and only if they have the same cycle type (see for example \cite{conjsn}).
+Therefore, counting conjugacy classes of $S_n$ can be broken down to counting cycle types.
+
+To model this combinatorially we first construct the class of positive integers. Let $\mathcal{Z}$ be an atom. We can interpret an integer $n \geq 0$ as class $\mathcal{Z}^n$, since it only contains a single object of size $n$.
+Consequently, we model the class in question by
+\begin{equation*}
+    \mathcal{N} = \operatorname{Seq}_{\geq 1}(\mathcal{Z}) \xrightarrow{OGF} N(z) = \frac{1}{1-z} - 1 = \frac{z}{1 - z}, 
+\end{equation*}
+where $\operatorname{Seq}_{\geq 1}$ is the sequence construction without objects of size $0$.
+
+Now we need to find all possibilities to decompose a positive integer into a sum. These sequences of numbers are called partitions.
+In a cycle the order of the disjoint factors does not matter, so neither does the order of numbers in cycle types.
+It follows that we can construct all partitions simply as multisets of positive integers:
+\begin{equation*}
+    \mathcal{P} = \operatorname{MSet}(\mathcal{N}) \xrightarrow{OGF} P(z) = \prod_{k=1}^\infty \frac{1}{1-z^k}.
+\end{equation*}
+\end{exm}
+
+
+
+
+
+
+
+
+
+
+\section{Labelled Classes and Exponential Generating Functions}
+The product $C(z) = A(z) B(z)$ of two exponential generating functions is again an exponential generating function with coefficients
+\begin{equation*}
+    n![z^n] C(z) = \sum_{n_1 + n_2 = n} \binom{n}{n_1, n_2} a_k b_{n-k},
+\end{equation*}
+using the multinomial coefficient $\binom{n}{n_1,\dots,n_r} = \frac{n!}{n_1! \dots n_r!}$.
+We interpret this as follows:
+We think of each object in the two classes as graphs.
+Assume that in both classes all objects carry distinct integer labels on each vertex.
+Take all such objects of size $k$ in $\mathcal{A}$ and of size $n-k$ in $\mathcal{B}$ (i.e. graphs that consist of $k$ and $n-k$ vertices) and "assemble" them to size-$n$-graphs, similar to the unlabelled case ($a_k b_{n-k}$ possibilities).
+Then, fix $n$ distinct integers and assign them to each of the new objects as labels and iterate through all possibilities to do so. 
+
+Since all combinatorial structures can be thought of as graphs with certain properties, EGFs are convenient when encoding classes whose graphs are labelled (see Figure \ref{fig:unlabelled labelled} again where the two cycles on the right are different as labelled objects, while they are not distinguishable if we took away the labels).
+
+Now, we formalize our observations. 
+We use the same notion of a combinatorial class, but call it a \ul{labelled class} in order to clarify our intention to use exponential generating functions to encode it (i.e. we interpret its objects as labelled graphs).
+A neutral class is again a class containing a single object of size $0$ holding no label at all, whereas an atom contains one object of size $1$ labelled by \textbf{1}.
+
+We call a labelled object \ul{well-labelled} if the set of labels exactly equals $\{ 1, 2, \dots, n \}$, where $n$ is its size.
+
+As already seen above, the key concept of labelled classes in comparison to the unlabelled case is the consideration of possible relabellings of objects.
+Note, however, that most relabellings are equivalent, in the sense following sense:
+
+\begin{defn}
+For some labelled object $\alpha$ in a labelled class (i.e. a graph) we define its \ul{reduction} $\rho(\alpha)$ to be the unique labelled graph satisfying:
+\begin{enumerate}
+    \item The labels are exactly the numbers $1$, $2$, \dots, $|\alpha|$ and
+    \item for reduced labels $a', b'$ of a connected pair of labels $a, b \in \mathbb{Z}$ with $a < b$ we have $a' < b'$. 
+\end{enumerate}
+We call two labelled objects $\alpha$ and $\beta$ equivalent, if $\rho(\alpha) = \rho(\beta)$
+\end{defn}
+
+\noindent This leads us to the (labelled) product and related constructions.
+
+\begin{defn}
+Let $\mathcal{A}$ and $\mathcal{B}$ be labelled classes.
+\begin{itemize}
+    \item The \ul{sum} of two labelled classes is defined exactly the same way as in the unlabelled case, i.e. as disjoint union:
+    \begin{equation*}
+        \mathcal{A} + \mathcal{B} = \mathcal{A} \sqcup \mathcal{B}.
+    \end{equation*}
+    
+    \item The labelled product of two objects (graphs) $\alpha \in \mathcal{A}, \beta \in \mathcal{B}$ is obtained by taking all inequivalent relabellings of the combined graph:
+    \begin{equation*}
+        \alpha \ast \beta = \{ (\alpha', \beta') : (\alpha', \beta') \text{ is well-labelled}, \rho(\alpha') = \alpha, \rho(\beta') = \beta \}.
+    \end{equation*}
+    More generally, the \ul{(labelled) product} of two labelled classes is defined as the labelled class
+    \begin{equation*}
+        \mathcal{A} \ast \mathcal{B} = \bigcup_{\alpha \in \mathcal{A}, \beta \in \mathcal{B}} \alpha \ast \beta
+    \end{equation*}
+    with size function $|(\alpha, \beta)| = |\alpha|_\mathcal{A} + |\beta|_\mathcal{B}$.
+    
+    \item The labelled class of all \ul{finite sequences} is 
+    \begin{equation*}
+        \operatorname{Seq}(\mathcal{A}) = \mathcal{E} + \mathcal{A} + \mathcal{A} \cdot \mathcal{A} + \mathcal{A} \cdot \mathcal{A} \cdot \mathcal{A} + \dots
+    \end{equation*}
+    provided that $\mathcal{A}_0 = \varnothing$.
+    
+    \item The labelled class of all \ul{sets} is in fact the same as the class of all multisets in the unlabelled class. 
+    Thus, 
+    \begin{equation*}
+        \operatorname{Set}(\mathcal{A}) = \operatorname{Seq}(\mathcal{A}) / R, 
+    \end{equation*}
+    where $R$ identifies two sequences of the same length if they are permutations of each other.
+    
+    \item The labelled class of all \ul{cycles} is obtained through
+    \begin{equation*}
+        \operatorname{Cyc}(\mathcal{A}) = \operatorname{Seq}(\mathcal{A}) / S, 
+    \end{equation*}
+    where $S$ identifies two sequences of the same length if they are cyclic permutations of each other.
+    
+    \item The labelled class of all \ul{undirected cycles} is implicitely defined through
+    \begin{equation*}
+        \operatorname{UCyc}(\mathcal{A}) + \operatorname{UCyc}(\mathcal{A}) = \operatorname{Cyc}(\mathcal{A}).
+    \end{equation*}
+    
+\end{itemize}
+\end{defn}
+
+\begin{thm}[Labelled Dictionary]
+Let $\mathcal{A}$ and $\mathcal{B}$ be labelled classes. The labelled constructions admit the following translations to exponential generating function:
+\begin{align*}
+    \mathcal{A} + \mathcal{B} &\xrightarrow{EGF} A(z) + B(z) \\
+    \mathcal{A} \ast \mathcal{B} &\xrightarrow{EGF} A(z) B(z) \\
+    \operatorname{Seq}(\mathcal{A}) &\xrightarrow{EGF} \frac{1}{1-A(z)} \\
+    \operatorname{Set}(\mathcal{A}) &\xrightarrow{EGF} \exp(A(z)) \\
+    \operatorname{Cyc}(\mathcal{A}) &\xrightarrow{EGF} \log\left(\frac{1}{1 - A(z)}\right)\\
+    \operatorname{UCyc}(\mathcal{A}) &\xrightarrow{EGF} \frac{1}{2} \log\left(\frac{1}{1 - A(z)}\right).
+\end{align*}
+\end{thm}
+\begin{proof}
+    The first follow immediately from the definition.
+    Next, we claim that the equivalence class of a set with $k$ elements contains $k!$ sequences.
+    Indeed, since the objects are labelled, all sequences that permute the $k$ elements of the set are equivalent.
+    Therefore, denoting the subclass of $k$-sets by $\operatorname{Set}_k(\mathcal{A})$ we obtain
+    \[
+        \operatorname{Set}_k(\mathcal{A}) \xrightarrow{EGF} \frac{1}{k!} B(z)^k, 
+    \]
+    since $B(z)^k$ is the EGF of all sequences with $k$ elements.
+    It follows that $Set(\mathcal{A}) = \bigcup_k \operatorname{Set}_k(\mathcal{A}) \xrightarrow{EGF} \exp(A(z))$.
+    The calculation for $\operatorname{Cyc}$ works similarly. The equivalence class of a $k$-cycle contains $k$ sequences, that we get by right-shifting a sequence $k$ times.
+    The EGF for undirected cycles is derived from the normal cycle class by interpreting two copies of it as the two directions of edges in a cycle.
+\end{proof}
+
+
+\begin{exm}[Point clouds in line systems]
+\label{ex:reggraphs}
+Choose a set of $n$ labelled lines in the Euclidean plane such that no two lines are parallel and no three lines are concurrent (intersect in a single point). 
+Let $P$ be the set of intersection points.
+We call a subset $N \subseteq P$ a \ul{cloud} if it has cardinality $n$ and does not contain any three collinear points.
+How many clouds are there for given $n$?
+
+Given a cloud $N$, if we identify the set of labelled lines with labelled vertices and choose $N$ to be the set of edges (two points or lines are connected by an edge if their intersection is in $N$), we obtain a graph, within which each vertex has exactly two neighbours (due to the exclusion of collinear points).
+These are called $2$-regular graphs.
+
+In order to compute their generating function we apply the above construction. 
+It is easy to see that there are none of sizes $0$, $1$ and $2$ and all $2$-regular graphs from size $3$ to $5$ are simply circular arrangements of the points.
+From size $6$ on, however, we also encounter graphs which are not completely connected.
+Each component of these graphs must itself be $2$-regular.
+Therefore, we find the following construction:
+\begin{equation*}
+    \mathcal{R} = \operatorname{Set}(\operatorname{UCyc}_{\geq 3} (\mathcal{Z})) \xrightarrow{EGF} R(z) = \frac{\exp(-\frac{z}{2} - \frac{z^2}{4})}{\sqrt{1 - z}}, 
+\end{equation*}
+where $\mathcal{Z}$ is a labelled atom and the $\operatorname{UCyc}_{\geq 3}$ stands for all undirected cycles of size at least $3$.
+\end{exm}
+
+
+
+
+
+
+
+
+
+\section{Multiplicative Structures and Dirichlet Generating Functions}
+While the last two kinds of generating functions are convenient in handling problems of additive nature (in terms of the sizes of assembled objects), we now turn to multiplicative problems. 
+Dirichlet generating functions are typically the tool of choice in this case. 
+Consider the product $C(z) = A(z) B(z)$ of two DGFs. We find
+\begin{equation*}
+    [n^z] C(z) = \sum_{k | n} a_k b_{n/k}.
+\end{equation*}
+This looks similar to the unlabelled case with OGFs but instead of adding sizes they are multiplied.
+
+In the following we call a combinatorial class \ul{multiplicative} if it contains no object of size 0 and we intend to translate it into a DGF. 
+The exclusion of 0 is a natural choice here since "multiplication" with such objects would void the result. 
+Contrary to the additive case we call a class containing a single object of size 1 a \ul{neutral class} and we call a class with a single prime-sized object an \ul{atom}.
+
+Unfortunately, constructing multiplicative classes using methods similar to those in the last sections is harder, because substituting Dirichlet series into one another will not always result in Dirichlet series (or at least not in a simple manner).
+Nevertheless, we introduce now a few basic operations on them.
+\begin{itemize}
+    \item The \ul{sum} of two multiplicative classes is defined exactly as in the unlabelled case, i.e. as their disjoint union, using the same size function.
+
+    \item For two multiplicative classes $\mathcal{A}$ and $\mathcal{B}$ we define their \ul{product} to be the cartesian product
+    \begin{equation*}
+        \mathcal{A} \cdot \mathcal{B} = \mathcal{A} \cross \mathcal{B}.
+    \end{equation*}
+    with size function $|(\alpha, \beta)| = |\alpha|_{\mathcal{A}} |\beta|_\mathcal{B}$.
+    
+    \item Let $\mathfrak{A} = \{\mathcal{A}^{(p)}\}_{p \text{ prime}}$ be a family of multiplicative classes, such that each $\mathcal{A}^{(p)}$ contains only objects of size $p^k$, $k \in \mathbb{N}_0$
+    We define their \ul{Euler product} to be
+    \begin{equation*}
+        \operatorname{Euler}(\mathfrak{A}) = \prod_{p \text{ prime}} \mathcal{A}^{(p)}.
+    \end{equation*}
+    
+    \item If a multiplicative class $\mathcal{A}$ contains no neutral objects, then we define the class of all finite sequences over $\mathcal{A}$ as
+    \begin{equation*}
+        \operatorname{Seq}(\mathcal{A}) = \mathcal{E} + \mathcal{A} + \mathcal{A}^2 + \dots,
+    \end{equation*}
+    where $\mathcal{E}$ is a neutral class.
+\end{itemize}
+
+The reason to explicitly introduce the Euler product construction is that it allows to break down a construction to atoms or powers of atoms, whenever certain conditions are met:
+
+\begin{lem}
+\label{lem:euler}
+Consider a multiplicative class $\mathcal{A}$.
+If there exist combinatorial isomorphisms $\mathcal{A}_{nm} \to \mathcal{A}_n \cdot \mathcal{A}_m$ for all pairs of coprime positive integers, then
+\begin{equation*}
+    \mathcal{A} = \operatorname{Euler} \left( \left\{\sum_{k = 0}^\infty \mathcal{A}_{p^k} \right\}_{p \text{ prime}} \right).
+\end{equation*}
+In particular, if the condition holds for arbitrary positive integers, we have
+\begin{equation*}
+    \mathcal{A} = \operatorname{Euler} \left( \left\{ \operatorname{Seq}(\mathcal{A}_p) \right\}_{p \text{ prime}} \right).
+\end{equation*}
+\end{lem}
+\begin{proof}
+This is a simple translation to the language of combinatorial classes of the fact, that a sum $\sum_{n = 0} ^\infty f(n)$ formally is equal to $\prod_{p \text{ prime}} \sum_{k=0}^\infty f(p^k)$ or $\prod_{p \text{ prime}} \frac{1}{1-f(p)}$ if $f$ is multiplicative or totally multiplicative, respectively (easily verified with the fundamental theorem of arithmetic).
+\end{proof}
+
+Using the notation $X = p^{-z}$ we can write 
+\begin{equation*}
+    \sum_{k=0}^\infty a_{p^k} (p^k)^{-z} = \sum_{k=0}^\infty a_{p^k} X^k, 
+\end{equation*}
+which enables us to view the "local" Euler factors of DGFs as ordinary generating functions only dependant on the prime $p$.
+
+Finally, we calculate the generating functions for all constructions as usual. 
+Neutral classes translate to 1 and atoms to $p^{-z}$ where $p$ is the size (a prime).
+
+\begin{thm}(Multiplicative Dictionary)
+Using the above notation and conditions the following translations into DGFs hold:
+\begin{align*}
+    \mathcal{A} + \mathcal{B} &\xrightarrow{DGF} A(z) + B(z) \\
+    \mathcal{A} \cdot \mathcal{B} &\xrightarrow{DGF} A(z) B(z) \\
+    \operatorname{Euler}(\mathfrak{A}) &\xrightarrow{DGF} \prod_{p \text{ prime}} A^{(p)}(z) \\
+    \operatorname{Seq}(\mathcal{A}) &\xrightarrow{DGF} \frac{1}{1-A(z)}.
+    \proofclear
+\end{align*}
+\end{thm}
+
+
+\begin{exm}[Measuring subgroup growth]
+\label{ex:subgroup growth}
+Let $G$ be a group and $\mathcal{S}$ the set of subgroups with finite index in $G$.
+If there are only finitely many subgroups of each index, $\mathcal{S}$ is a multiplicative class and its DGF $S(z)$ is often referred to as its "subgroup zeta function" (usually denoted by $\zeta_G$ in the literature).
+In view of Lemma \ref{lem:euler} we are especially interested in groups with multiplicative counting sequences.
+One particular large class of groups which satisfy these conditions are nilpotent, torsionfree, finitely-generated groups, or $\mathcal{T}$-groups for short.
+
+A group $G$ is called nilpotent if the lower central series $G_0 \trianglelefteq G_1 \trianglelefteq \dots$ consisting of $G_0 = G$ and commutators $G_{i+1} = [G_i, G]$ terminates, i.e. for some $n$ we have that $G_n$ is trivial. 
+Note that nilpotency can be seen as a generalization of abelian: the series terminates in $n \leq 1$ if and only if the group is abelian.
+Besides the fact that quotients and subgroups are nilpotent again, the most important property is that finite nilpotent groups are isomorphic to the direct product of their Sylow subgroups (see for instance \cite{algebra} Chapter II Section 7).
+This entails the wanted multiplicativity:
+
+Indeed, for any positive integer $n = p_1^{e_1} \dots p_k^{e_k}$ the subgroup $\bigcap \mathcal{S}_n$ ($\mathcal{S}_n$ is finite) is of finite index in $G$ and contains a normal subgroup $N$, which is itself of finite index.
+The finite group $G/N$ is nilpotent and contains the full subgroup information of $G$ for indices less or equal $n$.
+Thus, without loss of generality we may assume that $G$ is finite and we write
+\begin{equation*}
+    G \cong P_1 \times \dots \times P_k \times P',
+\end{equation*}
+where the $P_i$ are $p_i$-Sylow subgroups and $P'$ is a direct product of the remaining Sylow subgroups.
+A subgroup $H \leq G$ of index $n$ corresponds to $(H \cap P_1) \times \dots \times (H \cap P_k) \times P'$ and clearly the subgroup $P_1 \times \dots \times (H \cap P_i) \times \dots \times P_k \times P'$ is of index $p_i^{e_i}$.
+Let $H_i$ be the subgroup of $G$ which corresponds to the latter.
+The claim then follows from the fact that the map
+\begin{equation*}
+    \mathcal{S}_n \to \mathcal{S}_{p_1^{e_1}} \times \dots \times \mathcal{S}_{p_k^{e_k}}, H \mapsto (H_1, \dots, H_k)
+\end{equation*}
+is a bijection.
+
+So we have
+\begin{equation*}
+    \mathcal{S} = \operatorname{Euler} \left( \left\{\sum_{k = 0}^\infty \mathcal{S}_{p^k} \right\}_{p \text{ prime}} \right),
+\end{equation*}
+thereby reducing the problem to computing the "local" Euler factors.
+This, however, is still a very hard problem.
+It has been proven in \cite{subgroupsoffiniteindex} that the local Euler factors are in fact rational functions in $p$ and $p^{-z}$.
+Moreover, in \cite{vollspaper} the author explicitely compute these rational functions in the case of nilpotency class 2.
+\end{exm}
+
+\begin{exm}[Sublattices]
+\label{ex:sublattices}
+A \ul{lattice} is an additive subgroup of $\mathbb{R}^n$ which is isomorphic to $\mathbb{Z}^n$.
+The latter is a simple example of a $\mathcal{T}$-group as it is abelian. We let $\mathcal{L}$ denote the multiplicative class of subgroups of finite index in $\mathbb{Z}^n$. 
+As explained in Example \ref{ex:subgroup growth} we fix a prime $p$ and compute the local DGFs first.
+
+Let $L$ be an $n$-by-$n$ matrix over $\mathbb{Z}$. 
+We denote the $\mathbb{Z}$-span its columns of $L$ by $\Lambda (L) \leq \mathbb{Z}^n$.
+Geometrically it is clear, that $\det(L) = [\mathbb{Z}^n:\Lambda(L)]$ if $L$ is invertible.
+Moreover, two lattice matrices $L$ and $M$ generate the same lattice iff their Hermite normal forms coincide, i.e. there are invertible matrices $U, V \in \operatorname{GL}_n(\mathbb{Z})$ such that 
+\begin{equation*}
+    L U = M V = \begin{bmatrix}
+        d_1&    b_{12}& \dots&  b_{1n} \\
+        0&      d_2&    &  b_{2n} \\
+        \vdots& &      \ddots& \vdots \\
+        0&      0&      0&      d_n
+    \end{bmatrix}
+\end{equation*}
+with $d_i > 0$ and $0 \leq b_{ij} < d_j$. 
+In other words, every lattice is uniquely described by going through each dimension $1 \leq k \leq n$ and choosing a vector $v_k \in \mathbb{Z}_{\geq 0}^k$ such that the last entry is the largest.
+This motivates the following considerations:
+
+Let $\mathcal{V}^{(k)}$ be the class of all such vectors of dimension $k$ with size function set to their maximum norm (always their last entry).
+For the atoms we find $\mathcal{V}_p^{(k)} = \{ [a_1, \dots, a_{k-1}, p] : 0 \leq a_i < p \}$, hence $v_p^k = p^{k-1}$.
+Note that we can regard this as the cartesian product $[0, p)^{k-1}$ of integer intervals (an integral hypercube of dimension $k-1$ with side length $p$).
+Then, for the size $p^2$ we find $\mathcal{V}_{p^2}^{(k)} = \{ [a_1, \dots, a_{k-1}, p^2]^T : 0 \leq a_i < p^2 \}$ (the scaled hypercube with new side length $p^2$), which is combinatorially isomorphic to the set $(\mathcal{V}_p^{(k)})^2 = \{ ([a_1, \dots, a_{k-1}, p]^T, [b_1, \dots, b_{k-1}, p]^T) : 0 \leq a_i < p, 0 \leq b_j < p \}$.
+Inductively we find that the class of all $p$-power-sized objects in $\mathcal{V}^k$ is $\operatorname{Seq}(\mathcal{V}_p^{(k)})$.
+
+Using this representation for all dimensions $\leq n$ we finally conclude that the class $\mathcal{Z}^{(n)}$ of finite-index subgroups in $\mathbb{Z}^n$ can be described as
+\begin{alignat*}{2}
+    \mathcal{Z}^{(n)} &= \operatorname{Euler} \left( \left\{ \operatorname{Seq}(\mathcal{V}_p^{(1)}) \cdot \operatorname{Seq}(\mathcal{V}_p^{(2)}) \cdot \ldots \cdot \operatorname{Seq}(\mathcal{V}_p^{(n)}) \right\}_{p \text{ prime}} \right) \\
+    &\xrightarrow{DGF} Z^{(n)}(z) = \prod_{p \text{ prime}} \frac{1}{1-p^{-z}} \frac{1}{1-p p^{-z}} \ldots \frac{1}{1-p^{k-1} p^{-z}} \\
+    &= Z^{(1)}(z) Z^{(1)}(z - 1) \ldots Z^{(1)}(z - (n-1)).
+\end{alignat*}
+
+\end{exm}

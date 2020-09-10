@@ -1,0 +1,84 @@
+\documentclass[11pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{microtype}
+
+\usepackage[a4paper,width=150mm,bottom=25mm,top=25mm]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{{img/}}
+
+\usepackage[style=alphabetic,sorting=none]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{amsmath,amssymb,amsthm}
+
+\usepackage{pgf, tikz}
+\usetikzlibrary{arrows, automata}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{soul}
+\usepackage{physics}
+\usepackage{multicol}
+\usepackage{url}
+\usepackage{pdfpages}
+
+
+
+
+%%%%%%%%%%%%%%%%%% new commands %%%%%%%%%%%%%%%%%%
+\newcounter{dummy} \numberwithin{dummy}{chapter}
+\newtheorem{cor}[dummy]{Corollary}
+\newtheorem{thm}[dummy]{Theorem}
+\newtheorem{prop}[dummy]{Proposition}
+\newtheorem{lem}[dummy]{Lemma}
+\newtheorem{defn}[dummy]{Definition}
+\newtheorem{exm}[dummy]{Example}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\newcommand{\proofclear}{\tag*{$\blacksquare$}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+\author{Luca Wellmeier}
+\title{Analytic Combinatorics}
+
+
+
+
+
+\begin{document}
+
+\input{title}
+\tableofcontents
+
+\input{introduction}
+
+\part{Symbolic Constructions}
+\chapter{Combinatorial Classes and Generating Functions}
+\input{chapters/combinatorialclasses}
+\chapter{Discrete Probability}
+\input{chapters/discreteprobability}
+
+\part{Analytic Coefficient Extraction}
+\chapter{Power Series}
+\input{chapters/analysisofpowerseriesgeneratingfunctions}
+\chapter{Dirichlet Series}
+\input{chapters/analysisofdirichletgeneratingfunctions}
+
+\printbibliography[
+    heading=bibintoc,
+    title=References]
+
+\includepdf[pages={1}]{eigenstaendigkeitserklaerung}
+
+\end{document}

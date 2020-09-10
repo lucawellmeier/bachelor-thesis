@@ -1,0 +1,74 @@
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
+Analytic combinatorics can be described as the process of encoding discrete structures as \textit{generating functions}, i.e. formal series in formal variables (formal power series, for instance), to exploit their analytic properties and thereby quantify interesting aspects of the underlying structure.
+This paper is meant to be a quick introduction into the theory as presented in the book \cite{analyticcombinatorics} by Philippe Flajolet and Robert Sedgewick, which was, in fact, its first extensive treatment.
+
+In the first part we develop tools to actually find generating functions.
+Flajolet and Sedgewick summarize these as the "symbolic method":
+We describe the discrete structure in question in terms of elementary concepts like sets, multisets or sequences, and then use a \textit{dictionary} to translate the description into generating functions (which could easily be carried out by a computer!).
+They answer the question "How many objects are in my structure of this given size?" simply by computing series coefficients.
+Moreover, we use notions from probability theory to compute more specific generating functions enabling us to solve problems like "All objects in this structure are built in some way from objects of a simpler structure. How many simpler objects can I expect this one to consist of?".
+
+We introduce three types of generating function: ordinary, exponential and Dirichlet.
+Applying all of them to the same problem generally results in different levels of "usefulness", which is intimately connected to the nature of the underlying structure.
+Therefore, we will categorize combinatorial structures into rough categories (additive/multiplicative, unlabelled/labelled) to find which type to use.
+Readers might also be interested in Wilf's book \cite{generatingfunctions} for a more intuitive and elementary introduction to generating functons.
+
+The second part of this paper is concerned with analytic properties of generating functions. 
+The general idea is to extract asymptotic growth properties of the quantitative properties of the structures encoded in generating function using methods from complex analysis.
+These properties are absolutely necessary in the average-case analysis of algorithms, for example.
+
+For ordinary and exponential generating functions we introduce the theory of singularity analysis, also significantly influenced by Flajolet's prior work.
+It allows to extract asymptotic information of a large class of singular functions by analyzing the nature and position of their singularities.
+Note, however, that there are many more tools available (the most important ones are treated in the book). 
+
+We analyze Dirichlet generating functions using the Wiener-Ikehara Tauberian theorem.
+The theorem also establishes a connection between nature and position of the singularity and quantitative properties of the structure.
+
+
+
+
+
+
+
+
+% deleted foreword
+
+% bachelor thesis
+% meant to be a guide for a quick introduction to analytic combinatorics by example
+% Mainly based on Flajolet
+% tries to integrate dirichlet generating functions into the theory
+% 5 examples, selction of covered topics is taylored to them
+% -> introduced in part I and "solved" in part II
+
+
+
+% structure
+%A handful of examples are pursued throughout the text
+
+
+
+
+
+% describe both parts of this work and the transition
+
+
+
+%%% MUSS NOCH ABGEAENDERT WERDEN DAMIT ES INS INTRO PASST
+%%% VLLT DIESER TEIL NACH DEM ERSTEN KOMMENTAR DORT UNTEN
+%In practice, if we are given a counting problem, the formal methods and %constructions discussed in the discrete part will often result in good %formulae for the generating functions, even when direct attempts to solve %the problem fail. In these cases, making the transition to the continuous %can help.
+%%% HIERNACH STIRLING
+
+
+
+
+% introductory example of a simple generating function that can be analyzed by elementary methods
+
+% maybe approximate the number of permutations of n objects analytically using Stirling
+
+
+
+
+%%%%
+% listing of all the examples by topic.

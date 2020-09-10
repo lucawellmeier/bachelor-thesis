@@ -1,0 +1,280 @@
+This chapter is based on \cite{numbertheory1} and \cite{numbertheory2}.
+
+We will now tackle coefficient extraction based on their analytic properties. 
+However, this time we will not attempt to approximate $[n^{-z}]$ directly but instead the summatory function $\sum_{n < t} a_n$. 
+This is due to the fact that we can express the Dirichlet series as an integral transform of this function, and are therefore in a situation, which is very roughly comparable to the power series case with Cauchy's coefficient formula.
+
+The two principles stated in section \ref{section:singularityanalysis} still hold in a sense. 
+Again we will be interested in the domain of convergence, which is a right half-plane of $\mathbb{C}$ in this case, and in the type of the nearest singularity on the real line.
+
+\section{The Ikehara-Ingham-Delange Theorem}
+
+We will derive our main theorem in the next section as a consequence of the following result.
+It uses a simple lemma from the theory of Fourier transforms, which we w
+
+\begin{lem}
+\label{thm:lemma}
+Let $g: \mathbb{R} \to \mathbb{C}$ be integrable on $\mathbb{R}$ and bounded and let 
+\[
+\hat{g}(\tau) = \int_{-\infty}^\infty g(t) \exp(-2\pi i \tau t) dt
+\]
+be its Fourier transformed.
+
+Assume there is a $T > 0$ such that 
+\begin{equation}
+\label{eq:fourier cond}
+\sup_{x \leq y \leq x + 1/T} (g(y) - g(x)) \leq K
+\end{equation}
+for some $K < \infty$.
+Then, 
+\[
+    \lVert g \rVert_\infty \leq 16 K + 6 \int_{-T}^T |\hat{g}(\tau)| d\tau.
+\]
+\end{lem}
+\begin{proof}
+See \cite{numbertheory2} Theorem 7.15.
+\end{proof}
+
+
+\begin{thm}[Ikehara-Ingham-Delange theorem]
+\label{thm:ikehara}
+Let $A$ be a real-valued non-decreasing function with $A(t) = 0$ for $t \leq 0$ such that
+\begin{equation}
+\label{eq:integraltransform}
+    F(s) = \int_0^\infty e^{-s t} A(t) dt
+\end{equation}
+converges for all $s \in \mathbb{C}$, $\operatorname{Re} s > a > 0$ and define
+\begin{equation*}
+    G(s) = \frac{F(s+a)}{s+a} - \frac{c}{s^{\omega + 1}}
+\end{equation*}
+with constants $c \geq 0$ and $\omega > -1$. If 
+\begin{equation}
+\label{eq:abszissasmall}
+    \eta(\sigma, T) = \sigma^\omega \int_{-T}^{T} |G(2\sigma + i\tau) - G(\sigma + i\tau)| d\tau \to 0 \quad \text{for} \quad \sigma \searrow 0
+\end{equation}
+for each $T > 0$, then as $x \to \infty$ we find
+\begin{equation*}
+    A(x) \sim \frac{c}{\Gamma(\omega + 1)} e^{a x} x^\omega.
+\end{equation*}
+\end{thm}
+
+\begin{proof}
+Let us define a few auxiliary functions:
+\begin{align*}
+    g_\sigma(t) &= A(t)e^{-a t}e^{-\sigma t}(1-e^{- \sigma t}) \\
+    B(t) &= \chi_{(0,\infty)}(t) \frac{c}{\Gamma(\omega + 1)} t^\omega e^{-t} (1-e^{-t}) \\
+    G_\sigma(t) &= g_\sigma(t) - \sigma^{-\omega} B(\sigma t) 
+    = \left( A(t)e^{-a t} - \frac{c}{\Gamma(\omega + 1)} t^\omega \right) e^{-\sigma t}(1-e^{- \sigma t}), 
+\end{align*}
+where $0 < \sigma \leq 1$ and $\chi_M$ is the characteristic function of the set $M$.
+The choices for them become reasonable after computing their Fourier transforms:
+\begin{align*}
+    \hat{g}_\sigma(\tau) &= G(\sigma + i\tau) - G(2\sigma + i\tau) + c ( (\sigma + i\tau)^{-\omega-1} - (2\sigma + i\tau)^{-\omega - 1}) \\
+    \hat{G}_\sigma(\tau) &= G(\sigma + i\tau) - G(2\sigma + i\tau).
+\end{align*}
+Both are easily verified using elementary properties of integration. For the second we also need to use the formula \eqref{eq:gamma2} for the gamma function.
+
+Now, the idea is to apply Lemma \ref{thm:lemma} to $G_\sigma$ in order to find that the difference $A(t)e^{-at} - t^\omega c/\Gamma(\omega + 1)$ is in fact in smaller than $C e^{-at} t^\omega$. This will prove our claim when setting $t = x$ and $\sigma = 1/x$ because then the order of the difference is $o(e^{-ax} x^\omega)$ as $x \to \infty$.
+We proceed in multiple steps.
+\begin{enumerate}
+    \item Next, we shall apply Lemma \ref{thm:lemma} to $g_\sigma(t)$. 
+    For the last term in the Fourier transformed we have
+    \begin{equation*}
+        |c ( (\sigma + i\tau)^{-\omega-1} - (2\sigma + i\tau)^{-\omega - 1})| = c (\omega + 1) \left| \int_{\sigma + i\tau}^{2\sigma + i\tau} \frac{ds}{s^{\omega + 2}} \right| \leq \frac{c (\omega + 1)\sigma}{|\sigma + i\tau|^{\omega+2}}, 
+    \end{equation*}
+    therefore,  
+    \begin{align}
+        \int_{-T}^T |\hat{g}_\sigma(\tau)| d\tau 
+        &\leq \frac{1}{\sigma^\omega} \eta(\sigma, T) + c (\omega + 1) \sigma \int_{-T}^T \frac{d\tau}{(\sigma + i\tau)^{\omega + 2}} \nonumber \\
+        &\leq \frac{1}{\sigma^{\omega}} \left(  \eta(\sigma, T) + c (\omega + 1) \sigma^{\omega + 1}  \int_{-T}^T \frac{d\tau}{\max(\sigma, |\tau|)^{\omega + 2}}  \right) \nonumber \\
+        &\leq \frac{\eta(\sigma, T) + c (\omega + 3)}{\sigma^{\omega}} \label{eq:ghatestimate}.
+    \end{align}
+    The last estimate follows from the facts that $w + 2 > 1$ and $\sigma \leq 1$ because
+    \begin{align*}
+        &c (\omega + 1) \sigma^{\omega + 1} \int_{-T}^T \frac{d\tau}{\max(\sigma, |\tau|)^{\omega + 2}}
+        \leq c (\omega + 1) \sigma^{\omega + 1}  \int_{-\infty}^\infty \frac{d\tau}{\max(\sigma, |\tau|)^{\omega + 2}} \\
+        &= c (\omega + 1) \sigma^{\omega + 1} \left( \int_{-\infty}^{-\sigma} \frac{d\tau}{(-\tau)^{\omega + 2}}
+        + \int_{-\sigma}^\sigma \frac{d\tau}{\sigma^{\omega + 2}}
+        + \int_\sigma^\infty \frac{d\tau}{\tau^{\omega + 2}} \right) \\
+        &=  (\omega + 1) \sigma^{\omega + 1} \frac{1}{\omega + 1} \left(  \frac{2}{\sigma^{\omega+1}} + \frac{\omega + 1}{\sigma^\omega}  \right)
+        = c (2 + \sigma (\omega + 1)) \leq c (\omega + 3).
+    \end{align*}
+    In order for the lemma to be applicable we need to check the condition \ref{eq:fourier cond}. Take $x \geq 0$ and $y > 0$.
+    Using the monotonicity and positivity of $A$ we find
+    \begin{align*}
+        &g_\sigma(x + y) - g_\sigma(x)
+        \geq A(x) e^{-(a+\sigma)x} (e^{-(a+\sigma)y}(1-e^{-\sigma(x+y)}) - (1 - e^{-\sigma x})) \\
+        &= A(x) e^{-(a+\sigma)x} (1 - e^{-\sigma x}) \left( e^{-(a+\sigma)y} \frac{1 - e^{-\sigma (x+y)}}{1 - e^{-\sigma x}} - 1\right) \\
+        &\geq A(x) e^{-(a+\sigma)x} (1 - e^{-\sigma x}) ( e^{-(a+\sigma)y}  - 1) = g_\sigma(x) ( e^{-(a+\sigma)y}  - 1), 
+    \end{align*}
+    since the appearing fraction is smaller than $1$. 
+    The second factor is negative, so we make the expression smaller by taking the supremum in $x$. 
+    Furthermore, $-(a+\sigma)y \leq e^{-(\sigma + a)y} - 1$ for $y \geq 0$ (easily verified by comparing values at zero and derivatives), so that we are left with 
+    \begin{equation}
+    \label{eq:glemmaprep}
+        g_\sigma(x + y) - g_\sigma(x) \geq -(a+\sigma) \lVert g_\sigma \rVert_\infty y.
+    \end{equation}
+    Hence, for each $T > 0$ and for $-g_\sigma$ we have
+    \begin{align*}
+        \sup_{x > 0, 0 < y \leq 1/T} (-g_\sigma(x + y) + g_\sigma(x))
+        \leq \frac{(a+\sigma) \lVert g_\sigma \rVert_\infty}{T} < \infty, 
+    \end{align*}
+    which satisfies condition \ref{eq:fourier cond}. 
+    By specifying $T = 32(a+1)$ and setting the upper bound $K = \lVert g_\sigma \rVert_\infty / 32$, then applying the lemma and the estimate \eqref{eq:ghatestimate}, we infer 
+    \begin{equation*}
+        \lVert g_\sigma \rVert_\infty \leq \frac{\lVert g_\sigma \rVert_\infty}{2} + 6 \frac{\eta(\sigma, 32(a+1)) + c(\omega + 3)}{\sigma^\omega}.
+    \end{equation*}
+    We conclude this part of the proof with $M_1(\sigma) = 12 (\eta(\sigma, 32(a+1)) + c(\omega + 3))$ and the estimate
+    \begin{equation}
+    \label{eq:boundforg}
+        \lVert g_\sigma \rVert_\infty \leq M_1(\sigma) \sigma^{-\omega}
+    \end{equation}
+    
+    
+    \item Now, we process the second summand of $G_\sigma$, namely $B$.
+    The plan is to apply the lemma once again to $G_\sigma$.
+    Thus, similar considerations as in the last part are necessary here.
+    
+    Let us compute the derivative of $B(t)$ for $t > 0$ first:
+    \begin{equation*}
+        B'(t) = \frac{c}{\Gamma(\omega + 1)} e^{-t} t^{\omega-1} (2t e^{-t} - t + \omega(1-e^{-t})).
+    \end{equation*}
+    Using the estimate $2t e^{-t} - t + \omega(1-e^{-t}) \leq (\omega + 1)t$ (again easily verified by the derivative test) we find
+    \begin{equation*}
+        B(x) = \int_0^x B'(t) dt 
+        \leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} \int_0^x e^{-t} t^\omega dt.
+    \end{equation*}
+    As in the last part we need to extimate $B(x+y) - B(x)$ appropriately.
+    If $x < 0$ and $x+y \leq 0$ there is nothing to do.
+    Assume $x < 0$ but $x+y \geq 0$. Then
+    \begin{align*}
+        &B(x+y) - B(x) = B(x+y) 
+        \leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} \int_0^{x+y} e^{-t} t^\omega dt \\
+        &\leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} \int_0^{y} e^{-t} t^\omega dt
+        \leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} \int_0^{y} t^\omega dt
+        = \frac{c}{\Gamma(\omega + 1)} y^{\omega + 1}.
+    \end{align*}
+    Now take $x>0$ and $x+y>0$. In the case $-1 < \omega < 0$ we use the fact that the function $x^{\omega}+1$ is concave, thus subadditive. Hence
+    \begin{align*}
+        &B(x+y) - B(x)
+        \leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} \int_x^{x+y} e^{-t} t^\omega dt
+        \leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} e^{-x} \int_x^{x+y} t^\omega dt \\
+        &= \frac{c}{\Gamma(\omega + 1)} e^{-x} ((x+y)^{\omega + 1} - x^{\omega + 1})
+        \leq \frac{c}{\Gamma(\omega + 1)} e^{-x} y^{\omega + 1}.
+    \end{align*}
+    For $\omega > 0$ we use the standard integral estimate
+    \begin{align*}
+        B(x+y) - B(x)
+        &\leq \frac{c(\omega + 1)}{\Gamma(\omega + 1)} e^{-x} \int_x^{x+y} t^\omega dt \\
+        &\leq \frac{c}{\Gamma(\omega + 1)} e^{-x} (\omega + 1) (x+y)^{\omega}y.
+    \end{align*}
+    These three considerations shall be applied to $B(\sigma x + \sigma y) - B(\sigma x)$ for $x \in \mathbb{R}$, $0 \leq 1/T \leq 1$ and $0 < \sigma \leq 1$.
+    The first two directly entail in their respective cases
+    \begin{equation*}
+        B(\sigma x + \sigma y) - B(\sigma x) 
+        \leq \frac{c}{\Gamma(\omega + 1)} \left( \frac{\sigma}{T} \right)^{\omega + 1}.
+    \end{equation*}
+    In the remaining case, where $\sigma x > 0$, $\sigma x + \sigma y > 0$, the function $e^{-\sigma x} (\omega + 1) \left( \sigma x + \frac{\sigma}{T} \right)$ is clearly bounded in $x$ by some constant $C > 0$, which leads us to
+    \begin{equation*}
+        B(\sigma x + \sigma y) - B(\sigma x)
+        \leq \frac{c}{\Gamma(\omega + 1)} C \frac{\sigma}{T}.
+    \end{equation*}
+    All cases considered, denoting $D = \frac{c}{\Gamma(\omega + 1)} (1 + C)$ we have in total
+    \begin{equation}
+    \label{eq:boundforB}
+        B(\sigma x + \sigma y) - B(\sigma x) \leq D \left( \frac{\sigma}{T} +  \left( \frac{\sigma}{T} \right)^{\omega + 1} \right).
+    \end{equation}
+    
+    
+    \item Having all ingredients in place, we can finally take on $G_\sigma$. 
+    We apply \eqref{eq:glemmaprep}, \eqref{eq:boundforg} and \eqref{eq:boundforB} with $0 < \sigma \leq 1$, $x \in \mathbb{R}$, $y \geq 0$ and $T = (a+1)/32$ to obtain
+    \begin{align*}
+        G_\sigma(x+y) - G_\sigma(x)
+        = g_\sigma(x+y) - g_\sigma(x) - \frac{B(x+y) - B(x)}{\sigma^{-\omega}} \\
+        \geq - \left( \frac{(a+\sigma) \lVert g_\sigma \rVert_\infty}{T} + \frac{B(\sigma x + \sigma y) - B(\sigma x)}{\sigma^\omega} \right) \\
+        \geq - \left( \frac{\lVert g_\sigma \rVert_\infty}{32} + \frac{D( \sigma/T + (\sigma/T)^{\omega + 1} )}{\sigma^\omega} \right) \\
+        \geq - \frac{1}{\sigma^{\omega}} \left( \frac{M_1(\sigma)}{32} + D \frac{\sigma}{T} + D\left( \frac{\sigma}{T} \right)^{\omega+1} \right).
+    \end{align*}
+    This permits us to use Lemma \ref{thm:lemma} once again. Thus, for each $x \in \mathbb{R}$ we find
+    \begin{align*}
+        |G_\sigma(x)| \leq \sigma^{-\omega} \left( \frac{M_1(\sigma)}{2} + \frac{D}{32} \left( \frac{\sigma}{T} + \left( \frac{\sigma}{T} \right)^{\omega + 1} \right) \right).
+    \end{align*}
+    We set $\sigma = 1/x$ and by letting $x \to \infty$ it follows that
+    \begin{align*}
+        |G_\sigma(x)| 
+        = \left| A(t)e^{-a x} - \frac{c}{\Gamma(\omega + 1)} t^\omega \right| e^{-1}(1-e^{-1}) \\
+        = x^\omega \left( O(1) + O\left(\frac 1x \right) + O\left( \frac{1}{x^{\omega + 1}} \right) \right)
+        = O(x^\omega) = o(e^{ax} x^\omega).
+    \end{align*}
+    Therefore, 
+    \begin{equation*}
+        A(t) = \frac{c}{\Gamma(\omega + 1)} e^{a x} x^\omega + O(x^\omega).
+    \end{equation*}
+\end{enumerate}
+\end{proof}
+
+
+
+
+
+
+
+
+
+\section{The Wiener-Ikehara Tauberian Theorem}
+
+
+\begin{thm}[Wiener-Ikehara Tauberian theorem]
+Let
+\begin{equation*}
+    f(s) = \sum_{n=1}^\infty \frac{a_n}{n^s}, \quad a_n \geq 0
+\end{equation*}
+be a Dirichlet series with abscissa of convergence at $a > 0$. 
+Suppose that the function
+\begin{equation*}
+    f(s) - \frac{c}{(s-a)^{\omega + 1}}
+\end{equation*}
+with constants $c \geq 0$, $\omega > -1$ has a holomorphic continuation to a small neighbourhood of the line $\operatorname{Re} s = a$ with the sole exception of the point $s=a$.
+Then, as $x \to \infty$, the summatory function satisfies
+\begin{equation*}
+    \sum_{n \leq x} a_n \sim \frac{c}{a \Gamma(\omega + 1)} x^a (\log x)^\omega.
+\end{equation*}
+\end{thm}
+
+\begin{proof}
+Define $A(x) = \sum_{\log n < x} a_n$. We may express $f(s)$ in terms of an integral in the sense of equation  \eqref{eq:integraltransform} by adding zeros and reordering the sum:
+\begin{align*}
+    f(s) &= \frac{1}{s} \sum_{n=1}^\infty a_n n^{-s} = \sum_{n=1}^\infty  (-(n+1)^{-s} + n^{-s}) \sum_{k=1}^n a_k \\
+    &= s \sum_{n=1}^\infty \int_{\log n}^{\log(n+1)} e^{-st} dt \sum_{k=1}^n a_k
+    = s \int_0^\infty e^{-s t} A(t) dt =: s F(s).
+\end{align*}
+The function
+\begin{equation*}
+    G(s) := \frac{F(s+a)}{s+a} - \frac{c}{s^{\omega + 1}}
+\end{equation*}
+obviously satisfies the condition in \eqref{eq:abszissasmall} since it is holomorphic on the line $\operatorname{Re} s = a$.
+Thus, Theorem \ref{thm:ikehara} tells us
+\begin{equation*}
+    A(t) \sim \frac{c}{a \Gamma(\omega + 1)} e^{a t} t^\omega.
+\end{equation*}
+Substituting $t = \log x$ proves the claim.
+\end{proof}
+
+
+
+\begin{exm}[Continuation of Example \ref{ex:sublattices}]
+We found that
+\[
+Z^{(n)}(z) = Z^{(1)}(z) Z^{(1)}(z - 1) \ldots Z^{(1)}(z - (n-1)).
+\]
+The DGF for $\mathbb{Z}$ is the Riemann Zeta function
+\[
+    Z^{(1)}(z) = \sum_{n=1}^\infty \frac{1}{n^z}, 
+\]
+which is continues to a meromorphic function on $\mathbb{C}$ with a simple pole at $z=1$ and residue 1.
+Therefore, the abszissa of convergence of $Z^{(n)}(z)$ is $n$, where it has a simple pole with residue $Z^{(1)}(2) Z^{(1)}(3) \dots Z^{(1)}(n)$.
+It follows for large $m$:
+\[
+    \sum_{k \leq m} z_k^{(n)} \sim \frac{1}{n} Z^{(1)}(2) Z^{(1)}(3) \dots Z^{(1)}(n) m^n.
+\]
+\end{exm}

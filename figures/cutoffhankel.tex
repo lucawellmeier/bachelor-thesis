@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+\draw[gray, thin] (-4,0) -- (4,0);
+\draw[gray, thin] (0,4) -- (0,-4);
+\filldraw[black] (0,0) circle (1pt) node[anchor=north] {$0$};
+\filldraw[black] (2,0) circle (1pt) node[anchor=north] {$1$};
+
+\draw[gray, thick] (2,1) arc (90:270:1);
+\draw[gray, thick] (2,1) -- (4,1);
+\draw[gray, thick] (2,-1) -- (4,-1);
+\draw[gray, thick] (4,1) arc (15:345:4);
+
+\draw[black, thin, ->] (2,0) -- (2, 1);
+\node[draw=none, anchor=west] at (2,0.5) {$\frac{1}{n}$};
+
+\draw[black, thin, ->] (0,0) -- (-3.9, 0);
+\node[draw=none, anchor=west] at (-2,-0.5) {$R$};
+\node[draw=none, anchor=west] at (-2,3) {$\gamma_2$};
+\node[draw=none, anchor=west] at (0.7,0.8) {$\gamma_1$};
+\end{tikzpicture}
