@@ -1,9 +1,10 @@
+MAINFILE=bachelorthesis-wellmeier
+
 all:
-	pdflatex main.tex
-	bibtex main
-	pdflatex main.tex
-	pdflatex main.tex
-	mv main.pdf bachelorthesis-wellmeier.pdf
+	pdflatex $(MAINFILE).tex
+	bibtex $(MAINFILE)
+	pdflatex $(MAINFILE).tex
+	pdflatex $(MAINFILE).tex
 
 clean:
-	cat .gitignore | xargs rm -f 
+	rm -f *.aux *.bbl *.blg *-blx.bib *.log *.run.xml *.toc *.pdf
